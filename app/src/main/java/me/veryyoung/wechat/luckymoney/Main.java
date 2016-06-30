@@ -74,7 +74,7 @@ public class Main implements IXposedHookLoadPackage {
                                 final Object ab = newInstance(findClass("com.tencent.mm.plugin.luckymoney.c.ab", lpparam.classLoader),
                                         msgType, channelId, sendId, nativeurl, headImg, nickName, sessionUserName, ver);
 
-                                Context context = (Context) callStaticMethod(findClass("com.tencent.mm.sdk.platformtools.z", lpparam.classLoader), "getContext");
+                                Context context = (Context) callStaticMethod(findClass("com.tencent.mm.sdk.platformtools.aa", lpparam.classLoader), "getContext");
                                 final Object i = newInstance(findClass("com.tencent.mm.plugin.luckymoney.c.i", lpparam.classLoader), context, null);
 
                                 if (PreferencesUtils.delay()) {
@@ -88,11 +88,10 @@ public class Main implements IXposedHookLoadPackage {
             );
 
 
-            findAndHookMethod(LUCKY_MONEY_RECEIVE_UI_CLASS_NAME, lpparam.classLoader, "d", int.class, int.class, String.class, "com.tencent.mm.s.j", new XC_MethodHook() {
+            findAndHookMethod(LUCKY_MONEY_RECEIVE_UI_CLASS_NAME, lpparam.classLoader, "d", int.class, int.class, String.class, "com.tencent.mm.t.j", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     Class receiveUI = findClass(LUCKY_MONEY_RECEIVE_UI_CLASS_NAME, lpparam.classLoader);
-
                     Button button = (Button) callStaticMethod(receiveUI, "e", param.thisObject);
                     if (button.isShown() && button.isClickable()) {
                         button.performClick();
