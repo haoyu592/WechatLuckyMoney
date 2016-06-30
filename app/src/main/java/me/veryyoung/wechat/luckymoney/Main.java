@@ -1,6 +1,8 @@
 package me.veryyoung.wechat.luckymoney;
 
 import android.content.Context;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.net.Uri;
 import android.widget.Button;
 
@@ -8,9 +10,12 @@ import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.StringReader;
+import java.util.ArrayList;
+import java.util.List;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 import static de.robv.android.xposed.XposedHelpers.callMethod;
@@ -97,8 +102,37 @@ public class Main implements IXposedHookLoadPackage {
                     }
                 }
             });
-
+            hideModule(lpparam);
 
         }
+    }
+
+    private void hideModule(XC_LoadPackage.LoadPackageParam loadPackageParam) {
+        findAndHookMethod("android.app.ApplicationPackageManager", loadPackageParam.classLoader, "getInstalledApplications", int.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                List<ApplicationInfo> applicationList = (List) param.getResult();
+                List<ApplicationInfo> resultapplicationList = new ArrayList<>();
+                for (ApplicationInfo applicationInfo : applicationList) {
+                    if (!applicationInfo.processName.contains("veryyoung")) {
+                        resultapplicationList.add(applicationInfo);
+                    }
+                }
+                param.setResult(resultapplicationList);
+            }
+        });
+        findAndHookMethod("android.app.ApplicationPackageManager", loadPackageParam.classLoader, "getInstalledPackages", int.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                List<PackageInfo> packageInfoList = (List) param.getResult();
+                List<PackageInfo> resultpackageInfoList = new ArrayList<>();
+                for (PackageInfo packageInfo : packageInfoList) {
+                    if (!packageInfo.packageName.contains("veryyoung")) {
+                        resultpackageInfoList.add(packageInfo);
+                    }
+                }
+                param.setResult(resultpackageInfoList);
+            }
+        });
     }
 }
