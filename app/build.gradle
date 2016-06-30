@@ -23,8 +23,8 @@ android {
         applicationId "me.veryyoung.wechat.luckymoney"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 8
-        versionName "1.0.1"
+        versionCode 10
+        versionName "1.0.3"
     }
 
     buildTypes {
@@ -38,6 +38,7 @@ android {
 }
 
 dependencies {
-    provided files('libs/XposedBridgeApi-30.jar')
+    provided files('libs/XposedBridgeApi-82.jar')
+    compile 'com.android.support:appcompat-v7:23.1.1'
 }
 
