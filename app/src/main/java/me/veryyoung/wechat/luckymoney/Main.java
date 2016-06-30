@@ -18,10 +18,12 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
+import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
+import static de.robv.android.xposed.XposedHelpers.findFirstFieldByExactType;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
 
 
@@ -91,12 +93,10 @@ public class Main implements IXposedHookLoadPackage {
             findAndHookMethod(LUCKY_MONEY_RECEIVE_UI_CLASS_NAME, lpparam.classLoader, "d", int.class, int.class, String.class, "com.tencent.mm.t.j", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    Class receiveUI = findClass(LUCKY_MONEY_RECEIVE_UI_CLASS_NAME, lpparam.classLoader);
-                    Button button = (Button) callStaticMethod(receiveUI, "e", param.thisObject);
+                    Button button = (Button) findFirstFieldByExactType(param.thisObject.getClass(), Button.class).get(param.thisObject);
+                    log(button.getText().toString());
                     if (button.isShown() && button.isClickable()) {
                         button.performClick();
-                        callMethod(param.thisObject, "finish");
-                    } else {
                         callMethod(param.thisObject, "finish");
                     }
                 }
