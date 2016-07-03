@@ -21,6 +21,10 @@ public class PreferencesUtils {
         return getInstance().getBoolean("open", false);
     }
 
+    public static boolean notSelf() {
+        return getInstance().getBoolean("not_self", false);
+    }
+
     public static boolean delay() {
         return getInstance().getBoolean("delay", false);
     }

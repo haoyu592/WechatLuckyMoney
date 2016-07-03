@@ -1,14 +1,16 @@
 package me.veryyoung.wechat.luckymoney;
 
-import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
+import android.database.Cursor;
 import android.net.Uri;
 import android.widget.Button;
 
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findFirstFieldByExactType;
+import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
 
 
@@ -31,70 +34,54 @@ public class Main implements IXposedHookLoadPackage {
 
     private static final String WECHAT_PACKAGE_NAME = "com.tencent.mm";
     private static final String LUCKY_MONEY_RECEIVE_UI_CLASS_NAME = "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyReceiveUI";
-    private static final String NOTIFICATION_CLASS_NAME = "com.tencent.mm.booter.notification.b";
 
     @Override
     public void handleLoadPackage(final LoadPackageParam lpparam) {
         if (lpparam.packageName.equals(WECHAT_PACKAGE_NAME)) {
-            findAndHookMethod(NOTIFICATION_CLASS_NAME, lpparam.classLoader, "a", NOTIFICATION_CLASS_NAME, String.class, String.class, int.class, int.class, boolean.class, new XC_MethodHook() {
-                        @Override
-                        protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                            if (!PreferencesUtils.open()) {
-                                return;
-                            }
-                            String msgtype = "436207665";
-                            if (param.args[3].toString().equals(msgtype)) {
-                                String xmlmsg = param.args[2].toString();
-                                String xl = xmlmsg.substring(xmlmsg.indexOf("<msg>"));
-                                //nativeurl
-                                String p = "nativeurl";
-                                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                                factory.setNamespaceAware(true);
-                                XmlPullParser pz = factory.newPullParser();
-                                pz.setInput(new StringReader(xl));
-                                int v = pz.getEventType();
-                                String saveurl = "";
-                                while (v != XmlPullParser.END_DOCUMENT) {
-                                    if (v == XmlPullParser.START_TAG) {
-                                        if (pz.getName().equals(p)) {
-                                            pz.nextToken();
-                                            saveurl = pz.getText();
-                                            break;
-                                        }
-                                    }
-                                    v = pz.next();
-                                }
-                                String nativeurl = saveurl;
-                                Uri nativeUrl = Uri.parse(nativeurl);
-                                int msgType = Integer.parseInt(nativeUrl.getQueryParameter("msgtype"));
-                                int channelId = Integer.parseInt(nativeUrl.getQueryParameter("channelid"));
-                                String sendId = nativeUrl.getQueryParameter("sendid");
-                                String headImg = "";
-                                String nickName = "";
-                                String sessionUserName = param.args[1].toString();
-                                String ver = "v1.0";
-                                final Object ab = newInstance(findClass("com.tencent.mm.plugin.luckymoney.c.ab", lpparam.classLoader),
-                                        msgType, channelId, sendId, nativeurl, headImg, nickName, sessionUserName, ver);
 
-                                Context context = (Context) callStaticMethod(findClass("com.tencent.mm.sdk.platformtools.aa", lpparam.classLoader), "getContext");
-                                final Object i = newInstance(findClass("com.tencent.mm.plugin.luckymoney.c.i", lpparam.classLoader), context, null);
+            findAndHookMethod("com.tencent.mm.e.b.bj", lpparam.classLoader, "b", Cursor.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    if (!PreferencesUtils.open()) {
+                        return;
+                    }
+                    String content = getObjectField(param.thisObject, "field_content").toString();
+                    int type = (int) getObjectField(param.thisObject, "field_type");
+                    String talker = getObjectField(param.thisObject, "field_talker").toString();
+                    int status = (int) getObjectField(param.thisObject, "field_status");
+                    int isSend = (int) getObjectField(param.thisObject, "field_isSend");
 
-                                if (PreferencesUtils.delay()) {
-                                    Thread.sleep(PreferencesUtils.delayTime());
-                                }
-                                callMethod(i, "a", ab, false);
-                            }
-                        }
+                    log("Talker:" + talker);
+                    if (status == 4) {
+                        return;
                     }
 
-            );
+                    if (PreferencesUtils.notSelf() && isSend != 0) {
+                        return;
+                    }
+
+                    if (type == 436207665 || type == 469762097) {
+                        String nativeUrlString = getNativeUrl(content);
+                        Uri nativeUrl = Uri.parse(nativeUrlString);
+                        int msgType = Integer.parseInt(nativeUrl.getQueryParameter("msgtype"));
+                        int channelId = Integer.parseInt(nativeUrl.getQueryParameter("channelid"));
+                        String sendId = nativeUrl.getQueryParameter("sendid");
+                        final Object ab = newInstance(findClass("com.tencent.mm.plugin.luckymoney.c.ab", lpparam.classLoader),
+                                msgType, channelId, sendId, nativeUrlString, "", "", talker, "v1.0");
+
+                        if (PreferencesUtils.delay()) {
+                            Thread.sleep(PreferencesUtils.delayTime());
+                        }
+                        callMethod(callStaticMethod(findClass("com.tencent.mm.model.ah", lpparam.classLoader), "tF"), "a", ab, 0);
+                    }
+                }
+            });
 
 
             findAndHookMethod(LUCKY_MONEY_RECEIVE_UI_CLASS_NAME, lpparam.classLoader, "d", int.class, int.class, String.class, "com.tencent.mm.t.j", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     Button button = (Button) findFirstFieldByExactType(param.thisObject.getClass(), Button.class).get(param.thisObject);
-                    log(button.getText().toString());
                     if (button.isShown() && button.isClickable()) {
                         button.performClick();
                         callMethod(param.thisObject, "finish");
@@ -104,6 +91,28 @@ public class Main implements IXposedHookLoadPackage {
             hideModule(lpparam);
 
         }
+    }
+
+    private String getNativeUrl(String xmlmsg) throws XmlPullParserException, IOException {
+        String xl = xmlmsg.substring(xmlmsg.indexOf("<msg>"));
+        //nativeurl
+        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+        factory.setNamespaceAware(true);
+        XmlPullParser pz = factory.newPullParser();
+        pz.setInput(new StringReader(xl));
+        int v = pz.getEventType();
+        String saveurl = "";
+        while (v != XmlPullParser.END_DOCUMENT) {
+            if (v == XmlPullParser.START_TAG) {
+                if (pz.getName().equals("nativeurl")) {
+                    pz.nextToken();
+                    saveurl = pz.getText();
+                    break;
+                }
+            }
+            v = pz.next();
+        }
+        return saveurl;
     }
 
     private void hideModule(XC_LoadPackage.LoadPackageParam loadPackageParam) {

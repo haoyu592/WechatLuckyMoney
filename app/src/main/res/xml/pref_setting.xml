@@ -1,12 +1,17 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-        android:title="@string/setting">
+    <PreferenceCategory android:title="@string/setting">
 
         <SwitchPreference
             android:defaultValue="true"
             android:key="open"
             android:title="@string/pref_open" />
 
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="open"
+            android:key="not_self"
+            android:title="@string/pre_not_self" />
 
         <SwitchPreference
             android:defaultValue="false"
@@ -21,10 +26,10 @@
             android:dependency="delay"
             android:layout="@layout/preference_checkbox"
             android:title="@string/pref_delay_time" />
+
     </PreferenceCategory>
 
-    <PreferenceCategory
-        android:title="@string/about">
+    <PreferenceCategory android:title="@string/about">
         <Preference
             android:key="author"
             android:summary="veryyoung"
@@ -32,9 +37,9 @@
         <Preference
             android:key="donate_alipay"
             android:title="支付宝捐赠" />
-        <!--<Preference-->
-        <!--android:key="donate_wechat"-->
-        <!--android:title="微信捐赠" />-->
+        <Preference
+            android:key="donate_wechat"
+            android:title="微信捐赠" />
     </PreferenceCategory>
 
 </PreferenceScreen>
