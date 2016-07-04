@@ -16,6 +16,18 @@
         <SwitchPreference
             android:defaultValue="false"
             android:dependency="open"
+            android:key="not_whisper"
+            android:title="@string/pref_whisper" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="open"
+            android:key="not_mute"
+            android:title="@string/pref_not_mute" />
+
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="open"
             android:key="delay"
             android:title="@string/pref_delay" />
 

@@ -20,7 +20,6 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
-import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -51,13 +50,24 @@ public class Main implements IXposedHookLoadPackage {
                     int status = (int) getObjectField(param.thisObject, "field_status");
                     int isSend = (int) getObjectField(param.thisObject, "field_isSend");
 
-                    log("Talker:" + talker);
                     if (status == 4) {
                         return;
                     }
 
                     if (PreferencesUtils.notSelf() && isSend != 0) {
                         return;
+                    }
+
+                    if (PreferencesUtils.notWhisper() && !isGroupTalk(talker)) {
+                        return;
+                    }
+
+                    if (isGroupTalk(talker) && PreferencesUtils.notMute()) {
+                        Object ai = callStaticMethod(findClass("com.tencent.mm.storage.ai", lpparam.classLoader), "E", param.thisObject);
+                        boolean notMute = (boolean) callStaticMethod(findClass("com.tencent.mm.booter.notification.c", lpparam.classLoader), "a", talker, ai, 3, false);
+                        if (notMute) {
+                            return;
+                        }
                     }
 
                     if (type == 436207665 || type == 469762097) {
@@ -91,6 +101,10 @@ public class Main implements IXposedHookLoadPackage {
             hideModule(lpparam);
 
         }
+    }
+
+    private boolean isGroupTalk(String talker) {
+        return talker.endsWith("@chatroom");
     }
 
     private String getNativeUrl(String xmlmsg) throws XmlPullParserException, IOException {

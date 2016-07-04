@@ -25,6 +25,14 @@ public class PreferencesUtils {
         return getInstance().getBoolean("not_self", false);
     }
 
+    public static boolean notWhisper() {
+        return getInstance().getBoolean("not_whisper", false);
+    }
+
+    public static boolean notMute() {
+        return getInstance().getBoolean("not_mute", false);
+    }
+
     public static boolean delay() {
         return getInstance().getBoolean("delay", false);
     }
