@@ -79,10 +79,11 @@ public class Main implements IXposedHookLoadPackage {
                         final Object ab = newInstance(findClass("com.tencent.mm.plugin.luckymoney.c.ab", lpparam.classLoader),
                                 msgType, channelId, sendId, nativeUrlString, "", "", talker, "v1.0");
 
+                        int delayTime = 0;
                         if (PreferencesUtils.delay()) {
-                            Thread.sleep(PreferencesUtils.delayTime());
+                            delayTime = PreferencesUtils.delayTime();
                         }
-                        callMethod(callStaticMethod(findClass("com.tencent.mm.model.ah", lpparam.classLoader), "tF"), "a", ab, 0);
+                        callMethod(callStaticMethod(findClass("com.tencent.mm.model.ah", lpparam.classLoader), "tF"), "a", ab, delayTime);
                     }
                 }
             });
