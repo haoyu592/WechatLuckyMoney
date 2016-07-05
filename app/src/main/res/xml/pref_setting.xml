@@ -36,7 +36,6 @@
             pref_kind="delay_time"
             android:defaultValue="true"
             android:dependency="delay"
-            android:layout="@layout/preference_checkbox"
             android:title="@string/pref_delay_time" />
 
     </PreferenceCategory>
@@ -45,13 +44,16 @@
         <Preference
             android:key="author"
             android:summary="veryyoung"
-            android:title="作者" />
+            android:title="@string/author" />
         <Preference
             android:key="donate_alipay"
-            android:title="支付宝捐赠" />
+            android:title="@string/alipay_donate" />
         <Preference
             android:key="donate_wechat"
-            android:title="微信捐赠" />
+            android:title="@string/wechat_donate" />
+        <Preference
+            android:key="thanks"
+            android:title="@string/thanks" />
     </PreferenceCategory>
 
 </PreferenceScreen>

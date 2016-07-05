@@ -100,10 +100,21 @@ public class SettingsActivity extends AppCompatActivity {
                             ViewGroup.LayoutParams.MATCH_PARENT,
                             ViewGroup.LayoutParams.MATCH_PARENT));
                     builder.show();
-                    ;
                     return true;
                 }
             });
+
+            Preference thanks = findPreference("thanks");
+            thanks.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+                @Override
+                public boolean onPreferenceClick(Preference pref) {
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), ThanksActivity.class);
+                    startActivity(intent);
+                    return true;
+                }
+            });
+
 
         }
     }

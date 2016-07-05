@@ -9,4 +9,9 @@
     <string name="delay_message">延迟0毫秒拆开红包</string>
     <string name="setting">设置</string>
     <string name="about">关于</string>
+    <string name="author">作者</string>
+    <string name="wechat_donate">微信捐赠</string>
+    <string name="alipay_donate">支付宝捐赠</string>
+    <string name="thanks">致敬</string>
+    <string name="thanks_word">感谢</string>
 </resources>

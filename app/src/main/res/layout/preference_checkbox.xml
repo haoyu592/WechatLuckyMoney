@@ -21,9 +21,10 @@
             android:layout_height="wrap_content"
             android:ellipsize="marquee"
             android:fadingEdge="horizontal"
+            android:layout="@layout/preference_checkbox"
             android:singleLine="true"
             android:textColor="#ff333333"
-            android:textSize="18sp" />
+            android:textSize="17sp" />
 
         <TextView
             android:id="@+android:id/summary"
