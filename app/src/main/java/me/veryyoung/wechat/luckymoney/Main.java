@@ -65,7 +65,7 @@ public class Main implements IXposedHookLoadPackage {
                     if (isGroupTalk(talker) && PreferencesUtils.notMute()) {
                         Object ai = callStaticMethod(findClass("com.tencent.mm.storage.ai", lpparam.classLoader), "E", param.thisObject);
                         boolean notMute = (boolean) callStaticMethod(findClass("com.tencent.mm.booter.notification.c", lpparam.classLoader), "a", talker, ai, 3, false);
-                        if (notMute) {
+                        if (!notMute) {
                             return;
                         }
                     }
