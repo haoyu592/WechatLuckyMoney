@@ -2,22 +2,15 @@ package me.veryyoung.wechat.luckymoney;
 
 
 import android.annotation.TargetApi;
-import android.app.Dialog;
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
+import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -55,7 +48,7 @@ public class SettingsActivity extends AppCompatActivity {
             addPreferencesFromResource(R.xml.pref_setting);
 
             Preference reset = findPreference("author");
-            reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            reset.setOnPreferenceClickListener(new OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference pref) {
                     Intent intent = new Intent();
@@ -67,7 +60,7 @@ public class SettingsActivity extends AppCompatActivity {
             });
 
             Preference donateAlipay = findPreference("donate_alipay");
-            donateAlipay.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            donateAlipay.setOnPreferenceClickListener(new OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference pref) {
                     Intent intent = new Intent();
@@ -85,27 +78,19 @@ public class SettingsActivity extends AppCompatActivity {
             });
 
             Preference donateWechat = findPreference("donate_wechat");
-            donateWechat.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            donateWechat.setOnPreferenceClickListener(new OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference pref) {
-                    Bitmap payImage = BitmapFactory.decodeResource(getResources(), R.drawable.wechat_pay);
-
-                    Dialog builder = new Dialog(getActivity());
-                    builder.requestWindowFeature(Window.FEATURE_NO_TITLE);
-                    builder.getWindow().setBackgroundDrawable(
-                            new ColorDrawable(android.graphics.Color.TRANSPARENT));
-                    ImageView imageView = new ImageView(getActivity());
-                    imageView.setImageBitmap(payImage);
-                    builder.addContentView(imageView, new RelativeLayout.LayoutParams(
-                            ViewGroup.LayoutParams.MATCH_PARENT,
-                            ViewGroup.LayoutParams.MATCH_PARENT));
-                    builder.show();
+                    Intent intent = new Intent();
+                    intent.setClassName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI");
+                    intent.putExtra("donate", true);
+                    startActivity(intent);
                     return true;
                 }
             });
 
             Preference thanks = findPreference("thanks");
-            thanks.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            thanks.setOnPreferenceClickListener(new OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference pref) {
                     Intent intent = new Intent();
