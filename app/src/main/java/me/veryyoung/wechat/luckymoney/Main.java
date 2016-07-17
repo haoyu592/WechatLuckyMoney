@@ -64,6 +64,7 @@ public class Main implements IXposedHookLoadPackage {
                                 donateIntent.putExtra("receiver_name", "yang_xiongwei");
                                 donateIntent.removeExtra("donate");
                                 activity.startActivity(donateIntent);
+                                activity.finish();
                             }
                         }
                     }
