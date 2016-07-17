@@ -77,33 +77,33 @@ public class Main implements IXposedHookLoadPackage {
                     if (!PreferencesUtils.open()) {
                         return;
                     }
-                    String content = getObjectField(param.thisObject, "field_content").toString();
+
                     int type = (int) getObjectField(param.thisObject, "field_type");
-                    String talker = getObjectField(param.thisObject, "field_talker").toString();
-                    int status = (int) getObjectField(param.thisObject, "field_status");
-                    int isSend = (int) getObjectField(param.thisObject, "field_isSend");
-
-                    if (status == 4) {
-                        return;
-                    }
-
-                    if (PreferencesUtils.notSelf() && isSend != 0) {
-                        return;
-                    }
-
-                    if (PreferencesUtils.notWhisper() && !isGroupTalk(talker)) {
-                        return;
-                    }
-
-                    if (isGroupTalk(talker) && PreferencesUtils.notMute()) {
-                        Object ai = callStaticMethod(findClass("com.tencent.mm.storage.ai", lpparam.classLoader), "E", param.thisObject);
-                        boolean notMute = (boolean) callStaticMethod(findClass("com.tencent.mm.booter.notification.c", lpparam.classLoader), "a", talker, ai, 3, false);
-                        if (!notMute) {
+                    if (type == 436207665 || type == 469762097) {
+                        int status = (int) getObjectField(param.thisObject, "field_status");
+                        if (status == 4) {
                             return;
                         }
-                    }
 
-                    if (type == 436207665 || type == 469762097) {
+                        int isSend = (int) getObjectField(param.thisObject, "field_isSend");
+                        if (PreferencesUtils.notSelf() && isSend != 0) {
+                            return;
+                        }
+
+                        String talker = getObjectField(param.thisObject, "field_talker").toString();
+                        if (PreferencesUtils.notWhisper() && !isGroupTalk(talker)) {
+                            return;
+                        }
+
+                        if (isGroupTalk(talker) && PreferencesUtils.notMute()) {
+                            Object ai = callStaticMethod(findClass("com.tencent.mm.storage.ai", lpparam.classLoader), "E", param.thisObject);
+                            boolean notMute = (boolean) callStaticMethod(findClass("com.tencent.mm.booter.notification.c", lpparam.classLoader), "a", talker, ai, 3, false);
+                            if (!notMute) {
+                                return;
+                            }
+                        }
+
+                        String content = getObjectField(param.thisObject, "field_content").toString();
                         String nativeUrlString = getNativeUrl(content);
                         Uri nativeUrl = Uri.parse(nativeUrlString);
                         int msgType = Integer.parseInt(nativeUrl.getQueryParameter("msgtype"));
