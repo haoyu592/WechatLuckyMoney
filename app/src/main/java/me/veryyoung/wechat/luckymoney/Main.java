@@ -1,6 +1,9 @@
 package me.veryyoung.wechat.luckymoney;
 
 import android.app.Activity;
+import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.ActivityManager.RunningServiceInfo;
+import android.app.ActivityManager.RunningTaskInfo;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -24,6 +27,7 @@ import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
+import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
@@ -165,7 +169,10 @@ public class Main implements IXposedHookLoadPackage {
                 List<ApplicationInfo> applicationList = (List) param.getResult();
                 List<ApplicationInfo> resultapplicationList = new ArrayList<>();
                 for (ApplicationInfo applicationInfo : applicationList) {
-                    if (!applicationInfo.processName.contains("veryyoung")) {
+                    String packageName = applicationInfo.packageName;
+                    if (isTarget(packageName)) {
+                        log("Hid package: " + packageName);
+                    } else {
                         resultapplicationList.add(applicationInfo);
                     }
                 }
@@ -177,13 +184,95 @@ public class Main implements IXposedHookLoadPackage {
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                 List<PackageInfo> packageInfoList = (List) param.getResult();
                 List<PackageInfo> resultpackageInfoList = new ArrayList<>();
+
                 for (PackageInfo packageInfo : packageInfoList) {
-                    if (!packageInfo.packageName.contains("veryyoung")) {
+                    String packageName = packageInfo.packageName;
+                    if (isTarget(packageName)) {
+                        log("Hid package: " + packageName);
+                    } else {
                         resultpackageInfoList.add(packageInfo);
                     }
                 }
                 param.setResult(resultpackageInfoList);
             }
         });
+        findAndHookMethod("android.app.ApplicationPackageManager", loadPackageParam.classLoader, "getPackageInfo", String.class, int.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                String packageName = (String) param.args[0];
+                if (isTarget(packageName)) {
+                    param.args[0] = WECHAT_PACKAGE_NAME;
+                    log("Fake package: " + packageName + " as " + WECHAT_PACKAGE_NAME);
+                }
+            }
+        });
+        findAndHookMethod("android.app.ApplicationPackageManager", loadPackageParam.classLoader, "getApplicationInfo", String.class, int.class, new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                String packageName = (String) param.args[0];
+                if (isTarget(packageName)) {
+                    param.args[0] = WECHAT_PACKAGE_NAME;
+                    log("Fake package: " + packageName + " as " + WECHAT_PACKAGE_NAME);
+                }
+            }
+        });
+        findAndHookMethod("android.app.ActivityManager", loadPackageParam.classLoader, "getRunningServices", int.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                List<RunningServiceInfo> serviceInfoList = (List) param.getResult();
+                List<RunningServiceInfo> resultList = new ArrayList<>();
+
+                for (RunningServiceInfo runningServiceInfo : serviceInfoList) {
+                    String serviceName = runningServiceInfo.process;
+                    if (isTarget(serviceName)) {
+                        log("Hid service: " + serviceName);
+                    } else {
+                        resultList.add(runningServiceInfo);
+                    }
+                }
+                param.setResult(resultList);
+            }
+        });
+        findAndHookMethod("android.app.ActivityManager", loadPackageParam.classLoader, "getRunningTasks", int.class, new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                List<RunningTaskInfo> serviceInfoList = (List) param.getResult();
+                List<RunningTaskInfo> resultList = new ArrayList<>();
+
+                for (RunningTaskInfo runningTaskInfo : serviceInfoList) {
+                    String taskName = runningTaskInfo.baseActivity.flattenToString();
+                    if (isTarget(taskName)) {
+                        log("Hid task: " + taskName);
+                    } else {
+                        resultList.add(runningTaskInfo);
+                    }
+                }
+                param.setResult(resultList);
+            }
+        });
+        findAndHookMethod("android.app.ActivityManager", loadPackageParam.classLoader, "getRunningAppProcesses", new XC_MethodHook() {
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                List<RunningAppProcessInfo> runningAppProcessInfos = (List) param.getResult();
+                List<RunningAppProcessInfo> resultList = new ArrayList<>();
+
+                for (RunningAppProcessInfo runningAppProcessInfo : runningAppProcessInfos) {
+                    String processName = runningAppProcessInfo.processName;
+                    if (isTarget(processName)) {
+                        log("Hid process: " + processName);
+                    } else {
+                        resultList.add(runningAppProcessInfo);
+                    }
+                }
+                param.setResult(resultList);
+            }
+        });
     }
+
+
+    private boolean isTarget(String name) {
+        return name.contains("veryyoung") || name.contains("xposed");
+    }
+
+
 }
