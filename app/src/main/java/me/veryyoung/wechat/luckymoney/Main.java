@@ -104,7 +104,8 @@ public class Main implements IXposedHookLoadPackage {
                         }
 
                         String content = getObjectField(param.thisObject, "field_content").toString();
-                        String nativeUrlString = getNativeUrl(content);
+
+                        String nativeUrlString = getFromXml(content, "nativeurl");
                         Uri nativeUrl = Uri.parse(nativeUrlString);
                         int msgType = Integer.parseInt(nativeUrl.getQueryParameter("msgtype"));
                         int channelId = Integer.parseInt(nativeUrl.getQueryParameter("channelid"));
@@ -141,7 +142,7 @@ public class Main implements IXposedHookLoadPackage {
         return talker.endsWith("@chatroom");
     }
 
-    private String getNativeUrl(String xmlmsg) throws XmlPullParserException, IOException {
+    private String getFromXml(String xmlmsg, String node) throws XmlPullParserException, IOException {
         String xl = xmlmsg.substring(xmlmsg.indexOf("<msg>"));
         //nativeurl
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -149,18 +150,18 @@ public class Main implements IXposedHookLoadPackage {
         XmlPullParser pz = factory.newPullParser();
         pz.setInput(new StringReader(xl));
         int v = pz.getEventType();
-        String saveurl = "";
+        String result = "";
         while (v != XmlPullParser.END_DOCUMENT) {
             if (v == XmlPullParser.START_TAG) {
-                if (pz.getName().equals("nativeurl")) {
+                if (pz.getName().equals(node)) {
                     pz.nextToken();
-                    saveurl = pz.getText();
+                    result = pz.getText();
                     break;
                 }
             }
             v = pz.next();
         }
-        return saveurl;
+        return result;
     }
 
     private void hideModule(XC_LoadPackage.LoadPackageParam loadPackageParam) {
