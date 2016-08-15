@@ -40,7 +40,6 @@
 
         <SwitchPreference
             android:defaultValue="true"
-            android:dependency="open"
             android:key="quick_open"
             android:title="@string/quick_open" />
 
