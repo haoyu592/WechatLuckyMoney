@@ -128,9 +128,11 @@ public class Main implements IXposedHookLoadPackage {
             findAndHookMethod(LUCKY_MONEY_RECEIVE_UI_CLASS_NAME, lpparam.classLoader, "d", int.class, int.class, String.class, "com.tencent.mm.t.j", new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    Button button = (Button) findFirstFieldByExactType(param.thisObject.getClass(), Button.class).get(param.thisObject);
-                    if (button.isShown() && button.isClickable()) {
-                        button.performClick();
+                    if (PreferencesUtils.quickOpen()) {
+                        Button button = (Button) findFirstFieldByExactType(param.thisObject.getClass(), Button.class).get(param.thisObject);
+                        if (button.isShown() && button.isClickable()) {
+                            button.performClick();
+                        }
                     }
                 }
             });

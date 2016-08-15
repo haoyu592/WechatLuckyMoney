@@ -38,6 +38,12 @@
             android:dependency="delay"
             android:title="@string/pref_delay_time" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:dependency="open"
+            android:key="quick_open"
+            android:title="@string/quick_open" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/about">

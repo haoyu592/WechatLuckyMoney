@@ -37,10 +37,14 @@ public class PreferencesUtils {
         return getInstance().getBoolean("delay", false);
     }
 
-
     public static int delayTime() {
         return getInstance().getInt("delay_time", 0);
     }
+
+    public static boolean quickOpen() {
+        return getInstance().getBoolean("quick_open", true);
+    }
+
 }
 
 
