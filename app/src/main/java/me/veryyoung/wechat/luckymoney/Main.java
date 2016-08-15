@@ -131,7 +131,6 @@ public class Main implements IXposedHookLoadPackage {
                     Button button = (Button) findFirstFieldByExactType(param.thisObject.getClass(), Button.class).get(param.thisObject);
                     if (button.isShown() && button.isClickable()) {
                         button.performClick();
-                        callMethod(param.thisObject, "finish");
                     }
                 }
             });
