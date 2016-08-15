@@ -71,7 +71,7 @@ public class Main implements IXposedHookLoadPackage {
                 }
             });
 
-            findAndHookMethod("com.tencent.mm.e.b.bj", lpparam.classLoader, "b", Cursor.class, new XC_MethodHook() {
+            findAndHookMethod("com.tencent.mm.e.b.bl", lpparam.classLoader, "b", Cursor.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     if (!PreferencesUtils.open()) {
@@ -95,9 +95,13 @@ public class Main implements IXposedHookLoadPackage {
                             return;
                         }
 
+                        if (!isGroupTalk(talker) && isSend != 0) {
+                            return;
+                        }
+
                         if (isGroupTalk(talker) && PreferencesUtils.notMute()) {
-                            Object ai = callStaticMethod(findClass("com.tencent.mm.storage.ai", lpparam.classLoader), "E", param.thisObject);
-                            boolean notMute = (boolean) callStaticMethod(findClass("com.tencent.mm.booter.notification.c", lpparam.classLoader), "a", talker, ai, 3, false);
+                            Object msgInfo = callStaticMethod(findClass("com.tencent.mm.storage.ak", lpparam.classLoader), "F", param.thisObject);
+                            boolean notMute = (boolean) callStaticMethod(findClass("com.tencent.mm.booter.notification.c", lpparam.classLoader), "a", talker, msgInfo, 3, false);
                             if (!notMute) {
                                 return;
                             }
@@ -113,11 +117,9 @@ public class Main implements IXposedHookLoadPackage {
                         final Object ab = newInstance(findClass("com.tencent.mm.plugin.luckymoney.c.ab", lpparam.classLoader),
                                 msgType, channelId, sendId, nativeUrlString, "", "", talker, "v1.0");
 
-                        int delayTime = 0;
-                        if (PreferencesUtils.delay()) {
-                            delayTime = PreferencesUtils.delayTime();
-                        }
-                        callMethod(callStaticMethod(findClass("com.tencent.mm.model.ah", lpparam.classLoader), "tF"), "a", ab, delayTime);
+                        int delayTime = PreferencesUtils.delay() ? PreferencesUtils.delayTime() : 0;
+
+                        callMethod(callStaticMethod(findClass("com.tencent.mm.model.ah", lpparam.classLoader), "vE"), "a", ab, delayTime);
                     }
                 }
             });
