@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.ActivityManager.RunningAppProcessInfo;
 import android.app.ActivityManager.RunningServiceInfo;
 import android.app.ActivityManager.RunningTaskInfo;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageInfo;
@@ -20,6 +21,7 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -42,9 +44,22 @@ public class Main implements IXposedHookLoadPackage {
     private static final String WECHAT_PACKAGE_NAME = "com.tencent.mm";
     private static final String LUCKY_MONEY_RECEIVE_UI_CLASS_NAME = "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyReceiveUI";
 
+    private static String wechatVersion = "";
+
     @Override
-    public void handleLoadPackage(final LoadPackageParam lpparam) {
+    public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
         if (lpparam.packageName.equals(WECHAT_PACKAGE_NAME)) {
+            if (TextUtils.isEmpty(wechatVersion)) {
+                Context context = (Context) callMethod(callStaticMethod(findClass("android.app.ActivityThread", null), "currentActivityThread", new Object[0]), "getSystemContext", new Object[0]);
+                String versionName = context.getPackageManager().getPackageInfo(lpparam.packageName, 0).versionName;
+                log("Found wechat version:" + versionName);
+                wechatVersion = versionName;
+                VersionParam.init(versionName);
+
+                if (!support(versionName)) {
+                    log("Maybe WechatLuckyMoney don't support wechat at version:" + versionName);
+                }
+            }
             findAndHookMethod("com.tencent.mm.ui.LauncherUI", lpparam.classLoader, "onCreate", Bundle.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
@@ -280,5 +295,10 @@ public class Main implements IXposedHookLoadPackage {
         return name.contains("veryyoung") || name.contains("xposed");
     }
 
+
+    private boolean support(String wechatVersion) {
+        List<String> supportVersion = Arrays.asList("6.3.23", "6.3.25");
+        return supportVersion.contains(wechatVersion);
+    }
 
 }
