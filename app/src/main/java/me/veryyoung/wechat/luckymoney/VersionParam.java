@@ -3,7 +3,7 @@ package me.veryyoung.wechat.luckymoney;
 
 public class VersionParam {
 
-    private static String getNetworkByModelMethod;
+    public static String getNetworkByModelMethod;
 
     public static void init(String version) {
         switch (version) {

@@ -135,7 +135,7 @@ public class Main implements IXposedHookLoadPackage {
 
                         int delayTime = PreferencesUtils.delay() ? PreferencesUtils.delayTime() : 0;
 
-                        callMethod(callStaticMethod(findClass("com.tencent.mm.model.ah", lpparam.classLoader), "vF"), "a", ab, delayTime);
+                        callMethod(callStaticMethod(findClass("com.tencent.mm.model.ah", lpparam.classLoader), VersionParam.getNetworkByModelMethod), "a", ab, delayTime);
                     }
                 }
             });
