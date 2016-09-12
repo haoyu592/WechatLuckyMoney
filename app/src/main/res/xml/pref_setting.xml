@@ -56,9 +56,7 @@
         <Preference
             android:key="donate_wechat"
             android:title="@string/wechat_donate" />
-        <Preference
-            android:key="thanks"
-            android:title="@string/thanks" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>

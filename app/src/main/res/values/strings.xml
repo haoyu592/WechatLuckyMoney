@@ -13,11 +13,4 @@
     <string name="author">作者</string>
     <string name="wechat_donate">微信捐赠</string>
     <string name="alipay_donate">支付宝捐赠</string>
-    <string name="thanks">致敬</string>
-    <string name="thanks_word">\t\t\t\t感谢 <a href='https://github.com/wuxianlin'>wuxianlin</a> 同学的<b> luckymoney </b>，让我知道 Xposed 还能这样玩，然后开始开发钉钉红包插件。\n\n
-            \t\t\t\t感谢 <a href='https://github.com/xfunforx'>xfunforx</a> 同学以及他的 <a href='https://github.com/xfunforx/somecode'>somecode</a>，让我开始接手微信、QQ 红包插件的开发。\n\n
-            \t\t\t\t本人平时上班就很忙，只能熬夜搞，非常辛苦，收到的捐赠远不够买咖啡的。却还得面对很多的非议，背负一些骂名。\n\n\n
-            \t\t\t\t两位前辈在维护的时候应该也是非常不容易，在此本人送上敬意！\n\n\n
-            \t\t\t\t这个插件我会尽量维护下去，发扬光大谈不上，争取不拖后腿吧，哈哈。\n\n
-    </string>
 </resources>

@@ -89,18 +89,6 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
 
-            Preference thanks = findPreference("thanks");
-            thanks.setOnPreferenceClickListener(new OnPreferenceClickListener() {
-                @Override
-                public boolean onPreferenceClick(Preference pref) {
-                    Intent intent = new Intent();
-                    intent.setClass(getActivity(), ThanksActivity.class);
-                    startActivity(intent);
-                    return true;
-                }
-            });
-
-
         }
     }
 }
