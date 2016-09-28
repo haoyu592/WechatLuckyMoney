@@ -13,6 +13,9 @@ public class VersionParam {
             case "6.3.25":
                 getNetworkByModelMethod = "vF";
                 break;
+            case "6.3.27":
+                getNetworkByModelMethod = "yj";
+                break;
             default:
                 getNetworkByModelMethod = "vF";
         }
