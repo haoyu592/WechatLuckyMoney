@@ -21,7 +21,6 @@ import org.xmlpull.v1.XmlPullParserFactory;
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
@@ -55,10 +54,6 @@ public class Main implements IXposedHookLoadPackage {
                 log("Found wechat version:" + versionName);
                 wechatVersion = versionName;
                 VersionParam.init(versionName);
-
-                if (!support(versionName)) {
-                    log("Maybe WechatLuckyMoney don't support wechat at version:" + versionName);
-                }
             }
             findAndHookMethod("com.tencent.mm.ui.LauncherUI", lpparam.classLoader, "onCreate", Bundle.class, new XC_MethodHook() {
                 @Override
@@ -141,7 +136,7 @@ public class Main implements IXposedHookLoadPackage {
             });
 
 
-            findAndHookMethod(LUCKY_MONEY_RECEIVE_UI_CLASS_NAME, lpparam.classLoader, "d", int.class, int.class, String.class, "com.tencent.mm.t.j", new XC_MethodHook() {
+            findAndHookMethod(LUCKY_MONEY_RECEIVE_UI_CLASS_NAME, lpparam.classLoader, VersionParam.receiveUIFunctionName, int.class, int.class, String.class, VersionParam.receiveUIParamName, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     if (PreferencesUtils.quickOpen()) {
@@ -293,12 +288,6 @@ public class Main implements IXposedHookLoadPackage {
 
     private boolean isTarget(String name) {
         return name.contains("veryyoung") || name.contains("xposed");
-    }
-
-
-    private boolean support(String wechatVersion) {
-        List<String> supportVersion = Arrays.asList("6.3.23", "6.3.25");
-        return supportVersion.contains(wechatVersion);
     }
 
 }
