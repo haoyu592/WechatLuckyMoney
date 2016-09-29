@@ -81,7 +81,7 @@ public class Main implements IXposedHookLoadPackage {
                 }
             });
 
-            findAndHookMethod("com.tencent.mm.e.b.bl", lpparam.classLoader, "b", Cursor.class, new XC_MethodHook() {
+            findAndHookMethod(VersionParam.getMessageClass, lpparam.classLoader, "b", Cursor.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     if (!PreferencesUtils.open()) {
