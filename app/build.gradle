@@ -23,15 +23,15 @@ android {
         applicationId "me.veryyoung.wechat.luckymoney"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 15
-        versionName "1.0.8"
+        versionCode 16
+        versionName "1.0.9"
     }
 
     buildTypes {
         release {
             signingConfig signingConfigs.release
-            minifyEnabled false
-            shrinkResources true
+            minifyEnabled true
+            shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
