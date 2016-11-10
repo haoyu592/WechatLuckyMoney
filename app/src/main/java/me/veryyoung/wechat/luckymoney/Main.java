@@ -82,6 +82,7 @@ public class Main implements IXposedHookLoadPackage {
 
                     int type = (int) getObjectField(param.thisObject, "field_type");
                     if (type == 436207665 || type == 469762097) {
+
                         int status = (int) getObjectField(param.thisObject, "field_status");
                         if (status == 4) {
                             return;

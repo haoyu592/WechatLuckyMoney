@@ -4,9 +4,9 @@ package me.veryyoung.wechat.luckymoney;
 public class VersionParam {
 
     public static String receiveUIFunctionName = "c";
-    public static String getNetworkByModelMethod = "vP";
+    public static String getNetworkByModelMethod = "vS";
     public static String receiveUIParamName = "com.tencent.mm.v.k";
-    public static String getMessageClass = "com.tencent.mm.e.b.bu";
+    public static String getMessageClass = "com.tencent.mm.e.b.bv";
 
     public static void init(String version) {
         switch (version) {
@@ -34,11 +34,17 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.v.k";
                 getMessageClass = "com.tencent.mm.e.b.bu";
                 break;
+            case "6.3.30":
+                receiveUIFunctionName = "c";
+                getNetworkByModelMethod = "vS";
+                receiveUIParamName = "com.tencent.mm.v.k";
+                getMessageClass = "com.tencent.mm.e.b.bv";
+                break;
             default:
                 receiveUIFunctionName = "c";
-                getNetworkByModelMethod = "vP";
+                getNetworkByModelMethod = "vS";
                 receiveUIParamName = "com.tencent.mm.v.k";
-                getMessageClass = "com.tencent.mm.e.b.bu";
+                getMessageClass = "com.tencent.mm.e.b.bv";
         }
     }
 }
