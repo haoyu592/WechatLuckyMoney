@@ -110,7 +110,18 @@ public class Main implements IXposedHookLoadPackage {
                             }
                         }
 
+
                         String content = getObjectField(param.thisObject, "field_content").toString();
+
+                        String senderTitle = getFromXml(content, "sendertitle");
+                        String notContainsWords = PreferencesUtils.notContains();
+                        if (!TextUtils.isEmpty(notContainsWords)) {
+                            for (String word : notContainsWords.replace("，", ",").split(",")) {
+                                if (senderTitle.contains(word)) {
+                                    return;
+                                }
+                            }
+                        }
 
                         String nativeUrlString = getFromXml(content, "nativeurl");
                         Uri nativeUrl = Uri.parse(nativeUrlString);

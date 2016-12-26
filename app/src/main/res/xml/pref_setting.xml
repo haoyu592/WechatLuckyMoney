@@ -25,6 +25,11 @@
             android:key="not_mute"
             android:title="@string/pref_not_mute" />
 
+        <EditTextPreference
+            android:dependency="open"
+            android:key="not_contains"
+            android:title="包含关键字不抢" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:dependency="open"

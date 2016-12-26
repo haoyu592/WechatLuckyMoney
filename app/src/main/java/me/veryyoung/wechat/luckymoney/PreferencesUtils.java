@@ -33,6 +33,10 @@ public class PreferencesUtils {
         return getInstance().getBoolean("not_mute", false);
     }
 
+    public static String notContains() {
+        return getInstance().getString("not_contains", "");
+    }
+
     public static boolean delay() {
         return getInstance().getBoolean("delay", false);
     }
