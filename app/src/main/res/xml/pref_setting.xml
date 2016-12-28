@@ -27,8 +27,9 @@
 
         <EditTextPreference
             android:dependency="open"
+            android:hint="请输入关键字，以,分隔"
             android:key="not_contains"
-            android:title="包含关键字不抢" />
+            android:title="@string/not_contains_hit" />
 
         <SwitchPreference
             android:defaultValue="false"

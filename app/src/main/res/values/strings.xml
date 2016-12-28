@@ -13,4 +13,5 @@
     <string name="author">作者</string>
     <string name="wechat_donate">微信捐赠</string>
     <string name="alipay_donate">支付宝捐赠</string>
+    <string name="not_contains_hit">包含关键字不抢</string>
 </resources>
