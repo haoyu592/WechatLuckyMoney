@@ -11,6 +11,13 @@ public class VersionParam {
 
     public static void init(String version) {
         switch (version) {
+            case "6.3.22":
+                receiveUIFunctionName = "d";
+                receiveUIParamName = "com.tencent.mm.t.j";
+                GET_LUCKY_MONEY_CLASS = "com.tencent.mm.model.ah";
+                getNetworkByModelMethod = "tF";
+                getMessageClass = "com.tencent.mm.e.b.bj";
+                break;
             case "6.3.23":
                 receiveUIFunctionName = "d";
                 receiveUIParamName = "com.tencent.mm.t.j";
