@@ -132,8 +132,10 @@ public class Main implements IXposedHookLoadPackage {
                                 msgType, channelId, sendId, nativeUrlString, "", "", talker, "v1.0");
 
 
-                        int delayTime = PreferencesUtils.delay() ? PreferencesUtils.delayTime() : 0;
-
+                        int delayTime = 0;
+                        if (PreferencesUtils.delay()) {
+                            delayTime = getRandom(PreferencesUtils.delayMin(), PreferencesUtils.delayMax());
+                        }
                         callMethod(callStaticMethod(findClass(VersionParam.GET_LUCKY_MONEY_CLASS, lpparam.classLoader), VersionParam.getNetworkByModelMethod), "a", ab, delayTime);
                     }
                 }
@@ -179,6 +181,10 @@ public class Main implements IXposedHookLoadPackage {
             v = pz.next();
         }
         return result;
+    }
+
+    private int getRandom(int min, int max) {
+        return min + (int) (Math.random() * (max - min + 1));
     }
 
 

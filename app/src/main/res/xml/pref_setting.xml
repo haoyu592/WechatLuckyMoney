@@ -37,8 +37,9 @@
             android:title="@string/pref_delay" />
 
 
-        <me.veryyoung.wechat.luckymoney.SeekBarPreference
-            pref_kind="delay_time"
+        <me.veryyoung.wechat.luckymoney.RangeSeekBarPreference
+            end="delay_max"
+            start="delay_min"
             android:defaultValue="true"
             android:dependency="delay"
             android:title="@string/pref_delay_time" />
