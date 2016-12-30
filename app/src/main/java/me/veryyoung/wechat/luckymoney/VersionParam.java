@@ -6,8 +6,8 @@ public class VersionParam {
     public static String receiveUIFunctionName = "d";
     public static String receiveUIParamName = "com.tencent.mm.v.k";
     public static String GET_LUCKY_MONEY_CLASS = "com.tencent.mm.model.ak";
-    public static String getNetworkByModelMethod = "vw";
-    public static String getMessageClass = "com.tencent.mm.e.b.by";
+    public static String getNetworkByModelMethod = "vy";
+    public static String getMessageClass = "com.tencent.mm.e.b.bx";
 
     public static void init(String version) {
         switch (version) {
@@ -61,12 +61,19 @@ public class VersionParam {
                 getNetworkByModelMethod = "vw";
                 getMessageClass = "com.tencent.mm.e.b.by";
                 break;
+            case "6.5.3":
+                receiveUIFunctionName = "d";
+                receiveUIParamName = "com.tencent.mm.v.k";
+                GET_LUCKY_MONEY_CLASS = "com.tencent.mm.model.ak";
+                getNetworkByModelMethod = "vy";
+                getMessageClass = "com.tencent.mm.e.b.bx";
+                break;
             default:
                 receiveUIFunctionName = "d";
                 receiveUIParamName = "com.tencent.mm.v.k";
                 GET_LUCKY_MONEY_CLASS = "com.tencent.mm.model.ak";
-                getNetworkByModelMethod = "vw";
-                getMessageClass = "com.tencent.mm.e.b.by";
+                getNetworkByModelMethod = "vy";
+                getMessageClass = "com.tencent.mm.e.b.bx";
         }
     }
 }
