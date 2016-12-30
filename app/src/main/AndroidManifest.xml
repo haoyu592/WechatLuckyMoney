@@ -20,7 +20,7 @@
             android:value="true" />
         <meta-data
             android:name="xposeddescription"
-            android:value="自动抢微信红包。" />
+            android:value="@string/app_desc" />
         <meta-data
             android:name="xposedminversion"
             android:value="30" />

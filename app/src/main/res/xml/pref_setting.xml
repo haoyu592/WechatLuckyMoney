@@ -27,7 +27,7 @@
 
         <EditTextPreference
             android:dependency="open"
-            android:hint="请输入关键字，以,分隔"
+            android:hint="@string/not_contains"
             android:key="not_contains"
             android:title="@string/not_contains_hit" />
 
