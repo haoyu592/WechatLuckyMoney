@@ -96,8 +96,8 @@ public class Main implements IXposedHookLoadPackage {
 
                         String blackList = PreferencesUtils.blackList();
                         if (!TextUtils.isEmpty(blackList)) {
-                            for (String word : blackList.replace("，", ",").split(",")) {
-                                if (talker.equals(word)) {
+                            for (String wechatId : blackList.split(",")) {
+                                if (talker.equals(wechatId.trim())) {
                                     return;
                                 }
                             }
@@ -123,7 +123,7 @@ public class Main implements IXposedHookLoadPackage {
                         String senderTitle = getFromXml(content, "sendertitle");
                         String notContainsWords = PreferencesUtils.notContains();
                         if (!TextUtils.isEmpty(notContainsWords)) {
-                            for (String word : notContainsWords.replace("，", ",").split(",")) {
+                            for (String word : notContainsWords.split(",")) {
                                 if (senderTitle.contains(word)) {
                                     return;
                                 }

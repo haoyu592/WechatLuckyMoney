@@ -30,7 +30,7 @@ public class PreferencesUtils {
     }
 
     public static String notContains() {
-        return getInstance().getString("not_contains", "");
+        return getInstance().getString("not_contains", "").replace("，", ",");
     }
 
     public static boolean delay() {
@@ -54,7 +54,7 @@ public class PreferencesUtils {
     }
 
     public static String blackList() {
-        return getInstance().getString("black_list", "");
+        return getInstance().getString("black_list", "").replace("，", ",");
     }
 
 
