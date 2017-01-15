@@ -29,10 +29,6 @@ public class PreferencesUtils {
         return getInstance().getBoolean("not_whisper", false);
     }
 
-    public static boolean notMute() {
-        return getInstance().getBoolean("not_mute", false);
-    }
-
     public static String notContains() {
         return getInstance().getString("not_contains", "");
     }
