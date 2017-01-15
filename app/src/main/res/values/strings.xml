@@ -16,5 +16,7 @@
     <string name="wechat_donate">微信捐赠</string>
     <string name="alipay_donate">支付宝捐赠</string>
     <string name="not_contains">包含关键字不抢</string>
-    <string name="not_contains_hit">请输入关键字，以,分隔</string>
+    <string name="not_contains_hit">请输入关键字, 以,分隔</string>
+    <string name="black_list">包含微信ID不抢</string>
+    <string name="black_list_hit">请输入微信ID, 以,分隔</string>
 </resources>

@@ -83,7 +83,6 @@ public class Main implements IXposedHookLoadPackage {
                         return;
                     }
 
-                    log("field_talker:" + getObjectField(param.thisObject, "field_talker"));
 
                     int type = (int) getObjectField(param.thisObject, "field_type");
                     if (type == 436207665 || type == 469762097) {
@@ -93,12 +92,22 @@ public class Main implements IXposedHookLoadPackage {
                             return;
                         }
 
+                        String talker = getObjectField(param.thisObject, "field_talker").toString();
+
+                        String blackList = PreferencesUtils.blackList();
+                        if (!TextUtils.isEmpty(blackList)) {
+                            for (String word : blackList.replace("，", ",").split(",")) {
+                                if (talker.equals(word)) {
+                                    return;
+                                }
+                            }
+                        }
+
                         int isSend = (int) getObjectField(param.thisObject, "field_isSend");
                         if (PreferencesUtils.notSelf() && isSend != 0) {
                             return;
                         }
 
-                        String talker = getObjectField(param.thisObject, "field_talker").toString();
 
                         if (PreferencesUtils.notWhisper() && !isGroupTalk(talker)) {
                             return;

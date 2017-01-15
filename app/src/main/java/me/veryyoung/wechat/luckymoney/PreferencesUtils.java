@@ -57,6 +57,11 @@ public class PreferencesUtils {
         return getInstance().getBoolean("show_wechat_id", false);
     }
 
+    public static String blackList() {
+        return getInstance().getString("black_list", "");
+    }
+
+
 }
 
 
