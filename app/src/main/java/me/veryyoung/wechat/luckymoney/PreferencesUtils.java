@@ -53,6 +53,10 @@ public class PreferencesUtils {
         return getInstance().getBoolean("quick_open", true);
     }
 
+    public static boolean showWechatId() {
+        return getInstance().getBoolean("show_wechat_id", false);
+    }
+
 }
 
 

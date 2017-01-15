@@ -37,6 +37,12 @@
             android:key="delay"
             android:title="@string/pref_delay" />
 
+        <SwitchPreference
+            android:defaultValue="false"
+            android:dependency="open"
+            android:key="show_wechat_id"
+            android:title="@string/pref_show_wechat_id" />
+
 
         <me.veryyoung.wechat.luckymoney.RangeSeekBarPreference
             end="delay_max"

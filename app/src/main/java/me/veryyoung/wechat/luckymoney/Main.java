@@ -1,6 +1,7 @@
 package me.veryyoung.wechat.luckymoney;
 
 import android.app.Activity;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -8,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Button;
+import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -20,6 +22,7 @@ import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
+import static android.widget.Toast.LENGTH_LONG;
 import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
 import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
@@ -80,6 +83,8 @@ public class Main implements IXposedHookLoadPackage {
                         return;
                     }
 
+                    log("field_talker:" + getObjectField(param.thisObject, "field_talker"));
+
                     int type = (int) getObjectField(param.thisObject, "field_type");
                     if (type == 436207665 || type == 469762097) {
 
@@ -94,6 +99,7 @@ public class Main implements IXposedHookLoadPackage {
                         }
 
                         String talker = getObjectField(param.thisObject, "field_talker").toString();
+
                         if (PreferencesUtils.notWhisper() && !isGroupTalk(talker)) {
                             return;
                         }
@@ -153,6 +159,33 @@ public class Main implements IXposedHookLoadPackage {
                     }
                 }
             });
+
+            findAndHookMethod("com.tencent.mm.plugin.profile.ui.ContactInfoUI", lpparam.classLoader, "onCreate", Bundle.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    if (PreferencesUtils.showWechatId()) {
+                        Activity activity = (Activity) param.thisObject;
+                        ClipboardManager cmb = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+                        String wechatId = activity.getIntent().getStringExtra("Contact_User");
+                        cmb.setText(wechatId);
+                        Toast.makeText(activity, "微信ID:" + wechatId + "已复制到剪切板", LENGTH_LONG).show();
+                    }
+                }
+            });
+
+            findAndHookMethod("com.tencent.mm.plugin.chatroom.ui.ChatroomInfoUI", lpparam.classLoader, "onCreate", Bundle.class, new XC_MethodHook() {
+                @Override
+                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                    if (PreferencesUtils.showWechatId()) {
+                        Activity activity = (Activity) param.thisObject;
+                        String wechatId = activity.getIntent().getStringExtra("RoomInfo_Id");
+                        ClipboardManager cmb = (ClipboardManager) activity.getSystemService(Context.CLIPBOARD_SERVICE);
+                        cmb.setText(wechatId);
+                        Toast.makeText(activity, "微信ID:" + wechatId + "已复制到剪切板", LENGTH_LONG).show();
+                    }
+                }
+            });
+
             new HideModule().hide(lpparam);
         }
     }
