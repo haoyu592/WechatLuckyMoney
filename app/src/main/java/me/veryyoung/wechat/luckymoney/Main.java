@@ -7,10 +7,11 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
 import org.xmlpull.v1.XmlPullParserFactory;
@@ -22,6 +23,7 @@ import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
+import static android.text.TextUtils.isEmpty;
 import static android.widget.Toast.LENGTH_LONG;
 import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.callMethod;
@@ -36,14 +38,24 @@ import static de.robv.android.xposed.XposedHelpers.newInstance;
 public class Main implements IXposedHookLoadPackage {
 
     public static final String WECHAT_PACKAGE_NAME = "com.tencent.mm";
-    private static final String LUCKY_MONEY_RECEIVE_UI_CLASS_NAME = "com.tencent.mm.plugin.luckymoney.ui.LuckyMoneyReceiveUI";
+    private static final String LUCKY_MONEY_RECEIVE_UI_CLASS_NAME = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
 
+    private static final String RECEIVE_LUCKY_MONEY_REQUEST = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ae";
+
+    private static Object requestCaller;
+    private static int msgType;
+    private static int channelId;
+    private static String sendId;
+    private static String nativeUrlString;
+    private static String talker;
+
+    private static boolean shouldPick;
     private static String wechatVersion = "";
 
     @Override
     public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
         if (lpparam.packageName.equals(WECHAT_PACKAGE_NAME)) {
-            if (TextUtils.isEmpty(wechatVersion)) {
+            if (isEmpty(wechatVersion)) {
                 Context context = (Context) callMethod(callStaticMethod(findClass("android.app.ActivityThread", null), "currentActivityThread", new Object[0]), "getSystemContext", new Object[0]);
                 String versionName = context.getPackageManager().getPackageInfo(lpparam.packageName, 0).versionName;
                 log("Found wechat version:" + versionName);
@@ -58,7 +70,7 @@ public class Main implements IXposedHookLoadPackage {
                         Intent intent = activity.getIntent();
                         if (intent != null) {
                             String className = intent.getComponent().getClassName();
-                            if (!TextUtils.isEmpty(className) && className.equals("com.tencent.mm.ui.LauncherUI") && intent.hasExtra("donate")) {
+                            if (!isEmpty(className) && className.equals("com.tencent.mm.ui.LauncherUI") && intent.hasExtra("donate")) {
                                 Intent donateIntent = new Intent();
                                 donateIntent.setClassName(activity, "com.tencent.mm.plugin.remittance.ui.RemittanceUI");
                                 donateIntent.putExtra("scene", 1);
@@ -81,11 +93,6 @@ public class Main implements IXposedHookLoadPackage {
                     if (!PreferencesUtils.open()) {
                         return;
                     }
-                    if (wechatVersion.equals("6.5.4")) {
-                        log("don't support wechat 6.5.4");
-                        return;
-                    }
-
 
                     int type = (int) getObjectField(param.thisObject, "field_type");
                     if (type == 436207665 || type == 469762097) {
@@ -95,10 +102,10 @@ public class Main implements IXposedHookLoadPackage {
                             return;
                         }
 
-                        String talker = getObjectField(param.thisObject, "field_talker").toString();
+                        talker = getObjectField(param.thisObject, "field_talker").toString();
 
                         String blackList = PreferencesUtils.blackList();
-                        if (!TextUtils.isEmpty(blackList)) {
+                        if (!isEmpty(blackList)) {
                             for (String wechatId : blackList.split(",")) {
                                 if (talker.equals(wechatId.trim())) {
                                     return;
@@ -125,7 +132,7 @@ public class Main implements IXposedHookLoadPackage {
 
                         String senderTitle = getFromXml(content, "sendertitle");
                         String notContainsWords = PreferencesUtils.notContains();
-                        if (!TextUtils.isEmpty(notContainsWords)) {
+                        if (!isEmpty(notContainsWords)) {
                             for (String word : notContainsWords.split(",")) {
                                 if (senderTitle.contains(word)) {
                                     return;
@@ -133,24 +140,43 @@ public class Main implements IXposedHookLoadPackage {
                             }
                         }
 
-                        String nativeUrlString = getFromXml(content, "nativeurl");
+                        nativeUrlString = getFromXml(content, "nativeurl");
                         Uri nativeUrl = Uri.parse(nativeUrlString);
-                        int msgType = Integer.parseInt(nativeUrl.getQueryParameter("msgtype"));
-                        int channelId = Integer.parseInt(nativeUrl.getQueryParameter("channelid"));
-                        String sendId = nativeUrl.getQueryParameter("sendid");
-                        final Object ab = newInstance(findClass("com.tencent.mm.plugin.luckymoney.c.ab", lpparam.classLoader),
+                        msgType = Integer.parseInt(nativeUrl.getQueryParameter("msgtype"));
+                        channelId = Integer.parseInt(nativeUrl.getQueryParameter("channelid"));
+                        sendId = nativeUrl.getQueryParameter("sendid");
+                        requestCaller = callStaticMethod(findClass(VersionParam.networkRequest, lpparam.classLoader), VersionParam.getNetworkByModelMethod);
+
+                        if (VersionParam.hasTimingIdentifier) {
+                            shouldPick = true;
+                            callMethod(requestCaller, "a", newInstance(findClass(RECEIVE_LUCKY_MONEY_REQUEST, lpparam.classLoader), channelId, sendId, nativeUrlString, 0, "v1.0"), 0);
+                            return;
+                        }
+                        Object luckyMoneyRequest = newInstance(findClass("com.tencent.mm.plugin.luckymoney.c.ab", lpparam.classLoader),
                                 msgType, channelId, sendId, nativeUrlString, "", "", talker, "v1.0");
 
-
-                        int delayTime = 0;
-                        if (PreferencesUtils.delay()) {
-                            delayTime = getRandom(PreferencesUtils.delayMin(), PreferencesUtils.delayMax());
-                        }
-                        callMethod(callStaticMethod(findClass(VersionParam.GET_LUCKY_MONEY_CLASS, lpparam.classLoader), VersionParam.getNetworkByModelMethod), "a", ab, delayTime);
+                        callMethod(requestCaller, "a", luckyMoneyRequest, getDelayTime());
                     }
                 }
             });
 
+
+            findAndHookMethod(RECEIVE_LUCKY_MONEY_REQUEST, lpparam.classLoader, "a", int.class, String.class, JSONObject.class, new XC_MethodHook() {
+                        protected void beforeHookedMethod(MethodHookParam param) throws JSONException {
+                            if (!shouldPick) {
+                                return;
+                            }
+                            String timingIdentifier = ((JSONObject) (param.args[2])).getString("timingIdentifier");
+                            if (isEmpty(timingIdentifier)) {
+                                return;
+                            }
+                            Object luckyMoneyRequest = newInstance(findClass("com.tencent.mm.plugin.luckymoney.c.ab", lpparam.classLoader),
+                                    msgType, channelId, sendId, nativeUrlString, "", "", talker, "v1.0", timingIdentifier);
+                            callMethod(requestCaller, "a", luckyMoneyRequest, getDelayTime());
+                            shouldPick = false;
+                        }
+                    }
+            );
 
             findAndHookMethod(LUCKY_MONEY_RECEIVE_UI_CLASS_NAME, lpparam.classLoader, VersionParam.receiveUIFunctionName, int.class, int.class, String.class, VersionParam.receiveUIParamName, new XC_MethodHook() {
                 @Override
@@ -192,6 +218,15 @@ public class Main implements IXposedHookLoadPackage {
 
             new HideModule().hide(lpparam);
         }
+
+    }
+
+    private int getDelayTime() {
+        int delayTime = 0;
+        if (PreferencesUtils.delay()) {
+            delayTime = getRandom(PreferencesUtils.delayMin(), PreferencesUtils.delayMax());
+        }
+        return delayTime;
     }
 
     private boolean isGroupTalk(String talker) {
