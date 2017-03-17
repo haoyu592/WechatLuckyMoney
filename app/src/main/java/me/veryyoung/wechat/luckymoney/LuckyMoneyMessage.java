@@ -20,42 +20,26 @@ public class LuckyMoneyMessage {
         return msgType;
     }
 
-    public void setMsgType(int msgType) {
-        this.msgType = msgType;
-    }
 
     public int getChannelId() {
         return channelId;
     }
 
-    public void setChannelId(int channelId) {
-        this.channelId = channelId;
-    }
 
     public String getSendId() {
         return sendId;
     }
 
-    public void setSendId(String sendId) {
-        this.sendId = sendId;
-    }
 
     public String getNativeUrlString() {
         return nativeUrlString;
     }
 
-    public void setNativeUrlString(String nativeUrlString) {
-        this.nativeUrlString = nativeUrlString;
-    }
 
     public String getTalker() {
         return talker;
     }
-
-    public void setTalker(String talker) {
-        this.talker = talker;
-    }
-
+    
 
     public LuckyMoneyMessage(int msgType, int channelId, String sendId, String nativeUrlString, String talker) {
         this.msgType = msgType;
