@@ -12,6 +12,7 @@ import de.robv.android.xposed.callbacks.XC_LoadPackage;
 
 import static de.robv.android.xposed.XposedBridge.log;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
+import static me.veryyoung.wechat.luckymoney.VersionParam.WECHAT_PACKAGE_NAME;
 
 /**
  * Created by veryyoung on 2016/10/28.
@@ -59,8 +60,8 @@ public class HideModule {
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 String packageName = (String) param.args[0];
                 if (isTarget(packageName)) {
-                    param.args[0] = Main.WECHAT_PACKAGE_NAME;
-                    log("Fake package: " + packageName + " as " + Main.WECHAT_PACKAGE_NAME);
+                    param.args[0] = WECHAT_PACKAGE_NAME;
+                    log("Fake package: " + packageName + " as " + WECHAT_PACKAGE_NAME);
                 }
             }
         });
@@ -69,8 +70,8 @@ public class HideModule {
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
                 String packageName = (String) param.args[0];
                 if (isTarget(packageName)) {
-                    param.args[0] = Main.WECHAT_PACKAGE_NAME;
-                    log("Fake package: " + packageName + " as " + Main.WECHAT_PACKAGE_NAME);
+                    param.args[0] = WECHAT_PACKAGE_NAME;
+                    log("Fake package: " + packageName + " as " + WECHAT_PACKAGE_NAME);
                 }
             }
         });

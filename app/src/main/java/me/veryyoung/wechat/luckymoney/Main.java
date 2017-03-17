@@ -33,12 +33,12 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findFirstFieldByExactType;
 import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
+import static me.veryyoung.wechat.luckymoney.VersionParam.WECHAT_PACKAGE_NAME;
+import static me.veryyoung.wechat.luckymoney.VersionParam.luckyMoneyReceiveUI;
 
 
 public class Main implements IXposedHookLoadPackage {
 
-    public static final String WECHAT_PACKAGE_NAME = "com.tencent.mm";
-    private static final String LUCKY_MONEY_RECEIVE_UI_CLASS_NAME = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
 
     private static final String RECEIVE_LUCKY_MONEY_REQUEST = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ae";
 
@@ -178,7 +178,7 @@ public class Main implements IXposedHookLoadPackage {
                     }
             );
 
-            findAndHookMethod(LUCKY_MONEY_RECEIVE_UI_CLASS_NAME, lpparam.classLoader, VersionParam.receiveUIFunctionName, int.class, int.class, String.class, VersionParam.receiveUIParamName, new XC_MethodHook() {
+            findAndHookMethod(luckyMoneyReceiveUI, lpparam.classLoader, VersionParam.receiveUIFunctionName, int.class, int.class, String.class, VersionParam.receiveUIParamName, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     if (PreferencesUtils.quickOpen()) {
