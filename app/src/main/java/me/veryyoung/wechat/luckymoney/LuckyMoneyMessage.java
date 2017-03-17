@@ -39,7 +39,7 @@ public class LuckyMoneyMessage {
     public String getTalker() {
         return talker;
     }
-    
+
 
     public LuckyMoneyMessage(int msgType, int channelId, String sendId, String nativeUrlString, String talker) {
         this.msgType = msgType;

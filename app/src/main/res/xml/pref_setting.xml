@@ -31,6 +31,13 @@
             android:key="delay"
             android:title="@string/pref_delay" />
 
+        <me.veryyoung.wechat.luckymoney.RangePreference
+            end="delay_max"
+            start="delay_min"
+            android:defaultValue="true"
+            android:dependency="delay"
+            android:title="@string/pref_delay_time" />
+
         <SwitchPreference
             android:defaultValue="false"
             android:dependency="open"
@@ -43,13 +50,6 @@
             android:key="black_list"
             android:title="@string/black_list" />
 
-
-        <me.veryyoung.wechat.luckymoney.RangeSeekBarPreference
-            end="delay_max"
-            start="delay_min"
-            android:defaultValue="true"
-            android:dependency="delay"
-            android:title="@string/pref_delay_time" />
 
         <SwitchPreference
             android:defaultValue="true"
