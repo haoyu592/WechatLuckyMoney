@@ -228,7 +228,7 @@ public class Main implements IXposedHookLoadPackage {
     private int getDelayTime() {
         int delayTime = 0;
         if (PreferencesUtils.delay()) {
-            delayTime = getRandom(PreferencesUtils.delayMin() * 1000, PreferencesUtils.delayMax() * 1000);
+            delayTime = getRandom(PreferencesUtils.delayMin(), PreferencesUtils.delayMax());
         }
         return delayTime;
     }

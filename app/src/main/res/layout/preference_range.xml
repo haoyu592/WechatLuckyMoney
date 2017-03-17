@@ -39,5 +39,13 @@
         android:textColor="#666666"
         android:textSize="16sp" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:text="毫秒"
+        android:textColor="#666666"
+        android:textSize="16sp" />
+
 
 </LinearLayout>
