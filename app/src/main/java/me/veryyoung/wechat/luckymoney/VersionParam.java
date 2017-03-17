@@ -7,8 +7,8 @@ public class VersionParam {
 
     public static String receiveUIFunctionName = "d";
     public static String receiveUIParamName = "com.tencent.mm.u.k";
-    public static String networkRequest = "com.tencent.mm.model.ak";
-    public static String getNetworkByModelMethod = "vy";
+    public static String networkRequest = "com.tencent.mm.model.al";
+    public static String getNetworkByModelMethod = "vM";
     public static String getMessageClass = "com.tencent.mm.e.b.by";
     public static String luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.En_fba4b94f";
     public static boolean hasTimingIdentifier = false;
@@ -93,8 +93,8 @@ public class VersionParam {
             case "6.5.6":
                 receiveUIFunctionName = "d";
                 receiveUIParamName = "com.tencent.mm.u.k";
-                networkRequest = "com.tencent.mm.model.ak";
-                getNetworkByModelMethod = "vy";
+                networkRequest = "com.tencent.mm.model.al";
+                getNetworkByModelMethod = "vM";
                 getMessageClass = "com.tencent.mm.e.b.by";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.En_fba4b94f";
                 hasTimingIdentifier = true;
@@ -102,8 +102,8 @@ public class VersionParam {
             default:
                 receiveUIFunctionName = "d";
                 receiveUIParamName = "com.tencent.mm.u.k";
-                networkRequest = "com.tencent.mm.model.ak";
-                getNetworkByModelMethod = "vy";
+                networkRequest = "com.tencent.mm.model.al";
+                getNetworkByModelMethod = "vM";
                 getMessageClass = "com.tencent.mm.e.b.by";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.En_fba4b94f";
                 hasTimingIdentifier = true;
