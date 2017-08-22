@@ -37,12 +37,11 @@ import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
 import static me.veryyoung.wechat.luckymoney.VersionParam.WECHAT_PACKAGE_NAME;
 import static me.veryyoung.wechat.luckymoney.VersionParam.luckyMoneyReceiveUI;
+import static me.veryyoung.wechat.luckymoney.VersionParam.receiveLuckyMoneyRequest;
 
 
 public class Main implements IXposedHookLoadPackage {
 
-
-    private static final String RECEIVE_LUCKY_MONEY_REQUEST = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ae";
 
     private static Object requestCaller;
 
@@ -146,11 +145,11 @@ public class Main implements IXposedHookLoadPackage {
                         requestCaller = callStaticMethod(findClass(VersionParam.networkRequest, lpparam.classLoader), VersionParam.getNetworkByModelMethod);
 
                         if (VersionParam.hasTimingIdentifier) {
-                            callMethod(requestCaller, "a", newInstance(findClass(RECEIVE_LUCKY_MONEY_REQUEST, lpparam.classLoader), channelId, sendId, nativeUrlString, 0, "v1.0"), 0);
+                            callMethod(requestCaller, "a", newInstance(findClass(receiveLuckyMoneyRequest, lpparam.classLoader), channelId, sendId, nativeUrlString, 0, "v1.0"), 0);
                             luckyMoneyMessages.add(new LuckyMoneyMessage(msgType, channelId, sendId, nativeUrlString, talker));
                             return;
                         }
-                        Object luckyMoneyRequest = newInstance(findClass("com.tencent.mm.plugin.luckymoney.c.ab", lpparam.classLoader),
+                        Object luckyMoneyRequest = newInstance(findClass(VersionParam.luckyMoneyRequest, lpparam.classLoader),
                                 msgType, channelId, sendId, nativeUrlString, "", "", talker, "v1.0");
 
                         callMethod(requestCaller, "a", luckyMoneyRequest, getDelayTime());
@@ -159,7 +158,7 @@ public class Main implements IXposedHookLoadPackage {
             });
 
 
-            findAndHookMethod(RECEIVE_LUCKY_MONEY_REQUEST, lpparam.classLoader, "a", int.class, String.class, JSONObject.class, new XC_MethodHook() {
+            findAndHookMethod(receiveLuckyMoneyRequest, lpparam.classLoader, "a", int.class, String.class, JSONObject.class, new XC_MethodHook() {
                         protected void beforeHookedMethod(MethodHookParam param) throws JSONException {
                             if (!VersionParam.hasTimingIdentifier) {
                                 return;
@@ -174,7 +173,7 @@ public class Main implements IXposedHookLoadPackage {
                                 return;
                             }
                             LuckyMoneyMessage luckyMoneyMessage = luckyMoneyMessages.get(0);
-                            Object luckyMoneyRequest = newInstance(findClass("com.tencent.mm.plugin.luckymoney.c.ab", lpparam.classLoader),
+                            Object luckyMoneyRequest = newInstance(findClass(VersionParam.luckyMoneyRequest, lpparam.classLoader),
                                     luckyMoneyMessage.getMsgType(), luckyMoneyMessage.getChannelId(), luckyMoneyMessage.getSendId(), luckyMoneyMessage.getNativeUrlString(), "", "", luckyMoneyMessage.getTalker(), "v1.0", timingIdentifier);
                             callMethod(requestCaller, "a", luckyMoneyRequest, getDelayTime());
                             luckyMoneyMessages.remove(0);
