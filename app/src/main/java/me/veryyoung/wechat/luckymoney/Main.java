@@ -3,7 +3,6 @@ package me.veryyoung.wechat.luckymoney;
 import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -59,31 +58,6 @@ public class Main implements IXposedHookLoadPackage {
                 wechatVersion = versionName;
                 VersionParam.init(versionName);
             }
-            findAndHookMethod("com.tencent.mm.ui.LauncherUI", lpparam.classLoader, "onCreate", Bundle.class, new XC_MethodHook() {
-                @Override
-                protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    Activity activity = (Activity) param.thisObject;
-                    if (activity != null) {
-                        Intent intent = activity.getIntent();
-                        if (intent != null) {
-                            String className = intent.getComponent().getClassName();
-                            if (!isEmpty(className) && className.equals("com.tencent.mm.ui.LauncherUI") && intent.hasExtra("donate")) {
-                                Intent donateIntent = new Intent();
-                                donateIntent.setClassName(activity, "com.tencent.mm.plugin.remittance.ui.RemittanceUI");
-                                donateIntent.putExtra("scene", 1);
-                                donateIntent.putExtra("pay_scene", 32);
-                                donateIntent.putExtra("fee", 10.0d);
-                                donateIntent.putExtra("pay_channel", 13);
-                                donateIntent.putExtra("receiver_name", "yang_xiongwei");
-                                donateIntent.removeExtra("donate");
-                                activity.startActivity(donateIntent);
-                                activity.finish();
-                            }
-                        }
-                    }
-                }
-            });
-
             findAndHookMethod(VersionParam.getMessageClass, lpparam.classLoader, "b", Cursor.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
