@@ -11,6 +11,11 @@
 
 ![](http://ww1.sinaimg.cn/large/9732f922gw1f57ga6rkcpg20k00zkb29.gif)
 
+# 打赏
+![](https://ws1.sinaimg.cn/large/006tNc79ly1fitgjgbupqj30yi1bcgnx.jpg)
+
+![](https://ws2.sinaimg.cn/large/006tNc79ly1fitgk77mhrj30ng0zkabc.jpg)
+
 # License
 
 ```
