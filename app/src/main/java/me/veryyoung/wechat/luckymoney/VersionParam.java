@@ -10,17 +10,17 @@ public class VersionParam {
     /**
      * last param of receiveUIFunctionName for class luckyMoneyReceiveUI
      */
-    public static String receiveUIParamName = "com.tencent.mm.ac.k";
+    public static String receiveUIParamName = "com.tencent.mm.ad.k";
 
     /**
      * Search MMCore has not been initialize ?
      */
-    public static String networkRequest = "com.tencent.mm.x.ap";
+    public static String networkRequest = "com.tencent.mm.y.at";
 
     /**
      * Search MMCore has not been initialize ? next function of networkRequest
      */
-    public static String getNetworkByModelMethod = "wT";
+    public static String getNetworkByModelMethod = "wS";
 
     /**
      * Search get value failed, %s", e.getMessage(), having field_talker
@@ -193,11 +193,22 @@ public class VersionParam {
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ab";
                 hasTimingIdentifier = true;
                 break;
+            case "6.5.19":
+                receiveUIFunctionName = "d";
+                receiveUIParamName = "com.tencent.mm.ad.k";
+                networkRequest = "com.tencent.mm.y.at";
+                getNetworkByModelMethod = "wS";
+                getMessageClass = "com.tencent.mm.g.b.ce";
+                receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ae";
+                luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.En_fba4b94f";
+                luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ab";
+                hasTimingIdentifier = true;
+                break;
             default:
                 receiveUIFunctionName = "d";
-                receiveUIParamName = "com.tencent.mm.ac.k";
-                networkRequest = "com.tencent.mm.x.ap";
-                getNetworkByModelMethod = "wT";
+                receiveUIParamName = "com.tencent.mm.ad.k";
+                networkRequest = "com.tencent.mm.y.at";
+                getNetworkByModelMethod = "wS";
                 getMessageClass = "com.tencent.mm.g.b.ce";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.En_fba4b94f";
