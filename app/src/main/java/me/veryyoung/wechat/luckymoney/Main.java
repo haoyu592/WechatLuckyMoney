@@ -56,6 +56,7 @@ public class Main implements IXposedHookLoadPackage {
                 String versionName = context.getPackageManager().getPackageInfo(lpparam.packageName, 0).versionName;
                 log("Found wechat version:" + versionName);
                 wechatVersion = versionName;
+                new DonateHook().hook(lpparam);
                 VersionParam.init(versionName);
             }
             findAndHookMethod(VersionParam.getMessageClass, lpparam.classLoader, "b", Cursor.class, new XC_MethodHook() {

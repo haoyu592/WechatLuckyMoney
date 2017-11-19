@@ -11,7 +11,6 @@ import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 public class SettingsActivity extends AppCompatActivity {
 
@@ -82,7 +81,10 @@ public class SettingsActivity extends AppCompatActivity {
             donateWechat.setOnPreferenceClickListener(new OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference pref) {
-                    Toast.makeText(pref.getContext(), "微信打赏暂时无法使用，请通过支付宝打赏，谢谢！", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent();
+                    intent.setClassName("com.tencent.mm", "com.tencent.mm.ui.LauncherUI");
+                    intent.putExtra("donate", true);
+                    startActivity(intent);
                     return true;
                 }
             });
