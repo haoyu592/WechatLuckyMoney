@@ -20,7 +20,7 @@ public class VersionParam {
     /**
      * Search MMCore has not been initialize ? next function of networkRequest
      */
-    public static String getNetworkByModelMethod = "wW";
+    public static String getNetworkByModelMethod = "wY";
 
     /**
      * Search get value failed, %s", e.getMessage(), having field_talker
@@ -215,11 +215,22 @@ public class VersionParam {
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ab";
                 hasTimingIdentifier = true;
                 break;
+            case "6.5.23":
+                receiveUIFunctionName = "d";
+                receiveUIParamName = "com.tencent.mm.ad.k";
+                networkRequest = "com.tencent.mm.y.at";
+                getNetworkByModelMethod = "wY";
+                getMessageClass = "com.tencent.mm.g.b.ce";
+                receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ae";
+                luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.En_fba4b94f";
+                luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ab";
+                hasTimingIdentifier = true;
+                break;
             default:
                 receiveUIFunctionName = "d";
                 receiveUIParamName = "com.tencent.mm.ad.k";
                 networkRequest = "com.tencent.mm.y.at";
-                getNetworkByModelMethod = "wW";
+                getNetworkByModelMethod = "wY";
                 getMessageClass = "com.tencent.mm.g.b.ce";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.En_fba4b94f";
