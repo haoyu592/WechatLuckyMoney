@@ -22,10 +22,6 @@ public class VersionParam {
      */
     public static String getNetworkByModelMethod = "ys";
 
-    /**
-     * Search get value failed, %s", e.getMessage(), having field_talker
-     */
-    public static String getMessageClass = "com.tencent.mm.g.b.ce";
 
     public static String luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
 
@@ -51,7 +47,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.t.j";
                 networkRequest = "com.tencent.mm.model.ah";
                 getNetworkByModelMethod = "tF";
-                getMessageClass = "com.tencent.mm.e.b.bj";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ab";
@@ -61,7 +56,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.t.j";
                 networkRequest = "com.tencent.mm.model.ah";
                 getNetworkByModelMethod = "vE";
-                getMessageClass = "com.tencent.mm.e.b.bl";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ab";
@@ -71,7 +65,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.t.j";
                 networkRequest = "com.tencent.mm.model.ah";
                 getNetworkByModelMethod = "vF";
-                getMessageClass = "com.tencent.mm.e.b.bl";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ab";
@@ -81,7 +74,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.u.k";
                 networkRequest = "com.tencent.mm.model.ah";
                 getNetworkByModelMethod = "yj";
-                getMessageClass = "com.tencent.mm.e.b.br";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ab";
@@ -91,7 +83,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.v.k";
                 networkRequest = "com.tencent.mm.model.ah";
                 getNetworkByModelMethod = "vP";
-                getMessageClass = "com.tencent.mm.e.b.bu";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ab";
@@ -102,7 +93,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.v.k";
                 networkRequest = "com.tencent.mm.model.ah";
                 getNetworkByModelMethod = "vS";
-                getMessageClass = "com.tencent.mm.e.b.bv";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ab";
@@ -112,7 +102,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.v.k";
                 networkRequest = "com.tencent.mm.model.ak";
                 getNetworkByModelMethod = "vw";
-                getMessageClass = "com.tencent.mm.e.b.by";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ab";
@@ -122,7 +111,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.v.k";
                 networkRequest = "com.tencent.mm.model.ak";
                 getNetworkByModelMethod = "vy";
-                getMessageClass = "com.tencent.mm.e.b.bx";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
                 break;
@@ -131,7 +119,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.u.k";
                 networkRequest = "com.tencent.mm.model.ak";
                 getNetworkByModelMethod = "vy";
-                getMessageClass = "com.tencent.mm.e.b.by";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ab";
@@ -143,7 +130,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.u.k";
                 networkRequest = "com.tencent.mm.model.al";
                 getNetworkByModelMethod = "vM";
-                getMessageClass = "com.tencent.mm.e.b.by";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.En_fba4b94f";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ab";
@@ -154,7 +140,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.w.k";
                 networkRequest = "com.tencent.mm.model.an";
                 getNetworkByModelMethod = "uC";
-                getMessageClass = "com.tencent.mm.e.b.ca";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.En_fba4b94f";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ab";
@@ -165,7 +150,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.w.k";
                 networkRequest = "com.tencent.mm.s.ao";
                 getNetworkByModelMethod = "uH";
-                getMessageClass = "com.tencent.mm.e.b.cd";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.En_fba4b94f";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ab";
@@ -176,7 +160,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.y.k";
                 networkRequest = "com.tencent.mm.u.ap";
                 getNetworkByModelMethod = "vd";
-                getMessageClass = "com.tencent.mm.e.b.ce";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.En_fba4b94f";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ab";
@@ -187,7 +170,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.ac.k";
                 networkRequest = "com.tencent.mm.x.ap";
                 getNetworkByModelMethod = "wT";
-                getMessageClass = "com.tencent.mm.g.b.ce";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.En_fba4b94f";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ab";
@@ -198,7 +180,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.ad.k";
                 networkRequest = "com.tencent.mm.y.at";
                 getNetworkByModelMethod = "wS";
-                getMessageClass = "com.tencent.mm.g.b.ce";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.En_fba4b94f";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ab";
@@ -209,7 +190,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.ad.k";
                 networkRequest = "com.tencent.mm.y.at";
                 getNetworkByModelMethod = "wW";
-                getMessageClass = "com.tencent.mm.g.b.ce";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.En_fba4b94f";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ab";
@@ -220,7 +200,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.ad.k";
                 networkRequest = "com.tencent.mm.y.at";
                 getNetworkByModelMethod = "wY";
-                getMessageClass = "com.tencent.mm.g.b.ce";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.En_fba4b94f";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ab";
@@ -231,7 +210,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.ad.k";
                 networkRequest = "com.tencent.mm.y.as";
                 getNetworkByModelMethod = "ys";
-                getMessageClass = "com.tencent.mm.g.b.ce";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ab";
@@ -242,7 +220,6 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.ad.k";
                 networkRequest = "com.tencent.mm.y.as";
                 getNetworkByModelMethod = "ys";
-                getMessageClass = "com.tencent.mm.g.b.ce";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ab";
