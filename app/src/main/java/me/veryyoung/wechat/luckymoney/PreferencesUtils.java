@@ -45,6 +45,10 @@ public class PreferencesUtils {
         return getInstance().getInt("delay_max", 0);
     }
 
+    public static boolean receiveTransfer() {
+        return getInstance().getBoolean("receive_transfer", true);
+    }
+
     public static boolean quickOpen() {
         return getInstance().getBoolean("quick_open", true);
     }

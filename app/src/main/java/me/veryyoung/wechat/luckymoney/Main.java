@@ -215,6 +215,9 @@ public class Main implements IXposedHookLoadPackage {
     }
 
     private void handleTransfer(ContentValues contentValues, LoadPackageParam lpparam) throws IOException, XmlPullParserException, PackageManager.NameNotFoundException, InterruptedException, JSONException {
+        if (!PreferencesUtils.receiveTransfer()) {
+            return;
+        }
         JSONObject wcpayinfo = new XmlToJson.Builder(contentValues.getAsString("content")).build()
                 .getJSONObject("msg").getJSONObject("appmsg").getJSONObject("wcpayinfo");
 

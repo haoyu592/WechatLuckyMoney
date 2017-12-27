@@ -56,6 +56,11 @@
             android:key="quick_open"
             android:title="@string/quick_open" />
 
+        <SwitchPreference
+            android:defaultValue="true"
+            android:key="receive_transfer"
+            android:title="@string/receive_transfer" />
+
     </PreferenceCategory>
 
     <PreferenceCategory android:title="@string/about">
