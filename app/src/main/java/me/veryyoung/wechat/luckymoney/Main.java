@@ -13,12 +13,9 @@ import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -151,7 +148,7 @@ public class Main implements IXposedHookLoadPackage {
 
     }
 
-    private void handleLuckyMoney(ContentValues contentValues, LoadPackageParam lpparam) throws XmlPullParserException, IOException {
+    private void handleLuckyMoney(ContentValues contentValues, LoadPackageParam lpparam) throws XmlPullParserException, IOException, JSONException {
         if (!PreferencesUtils.open()) {
             return;
         }
@@ -187,9 +184,9 @@ public class Main implements IXposedHookLoadPackage {
         }
 
 
-        String content = contentValues.getAsString("content");
-
-        String senderTitle = getFromXml(content, "sendertitle");
+        JSONObject wcpayinfo = new XmlToJson.Builder(contentValues.getAsString("content")).build()
+                .getJSONObject("msg").getJSONObject("appmsg").getJSONObject("wcpayinfo");
+        String senderTitle = wcpayinfo.getString("sendertitle");
         String notContainsWords = PreferencesUtils.notContains();
         if (!isEmpty(notContainsWords)) {
             for (String word : notContainsWords.split(",")) {
@@ -199,7 +196,7 @@ public class Main implements IXposedHookLoadPackage {
             }
         }
 
-        String nativeUrlString = getFromXml(content, "nativeurl");
+        String nativeUrlString = wcpayinfo.getString("nativeurl");
         Uri nativeUrl = Uri.parse(nativeUrlString);
         int msgType = Integer.parseInt(nativeUrl.getQueryParameter("msgtype"));
         int channelId = Integer.parseInt(nativeUrl.getQueryParameter("channelid"));
@@ -251,27 +248,6 @@ public class Main implements IXposedHookLoadPackage {
         return talker.endsWith("@chatroom");
     }
 
-    private String getFromXml(String xmlmsg, String node) throws XmlPullParserException, IOException {
-        String xl = xmlmsg.substring(xmlmsg.indexOf("<msg>"));
-        //nativeurl
-        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-        factory.setNamespaceAware(true);
-        XmlPullParser pz = factory.newPullParser();
-        pz.setInput(new StringReader(xl));
-        int v = pz.getEventType();
-        String result = "";
-        while (v != XmlPullParser.END_DOCUMENT) {
-            if (v == XmlPullParser.START_TAG) {
-                if (pz.getName().equals(node)) {
-                    pz.nextToken();
-                    result = pz.getText();
-                    break;
-                }
-            }
-            v = pz.next();
-        }
-        return result;
-    }
 
     private int getRandom(int min, int max) {
         return min + (int) (Math.random() * (max - min + 1));
