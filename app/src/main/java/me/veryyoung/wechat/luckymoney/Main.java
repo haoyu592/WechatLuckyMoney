@@ -2,10 +2,11 @@ package me.veryyoung.wechat.luckymoney;
 
 import android.app.Activity;
 import android.content.ClipboardManager;
+import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -32,7 +33,6 @@ import static de.robv.android.xposed.XposedHelpers.callStaticMethod;
 import static de.robv.android.xposed.XposedHelpers.findAndHookMethod;
 import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findFirstFieldByExactType;
-import static de.robv.android.xposed.XposedHelpers.getObjectField;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
 import static me.veryyoung.wechat.luckymoney.VersionParam.WECHAT_PACKAGE_NAME;
 import static me.veryyoung.wechat.luckymoney.VersionParam.luckyMoneyReceiveUI;
@@ -59,22 +59,30 @@ public class Main implements IXposedHookLoadPackage {
                 new DonateHook().hook(lpparam);
                 VersionParam.init(versionName);
             }
-            findAndHookMethod(VersionParam.getMessageClass, lpparam.classLoader, "b", Cursor.class, new XC_MethodHook() {
+            findAndHookMethod("com.tencent.wcdb.database.SQLiteDatabase", lpparam.classLoader, "insert", String.class, String.class, ContentValues.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     if (!PreferencesUtils.open()) {
                         return;
                     }
 
-                    int type = (int) getObjectField(param.thisObject, "field_type");
+                    ContentValues contentValues = (ContentValues) param.args[2];
+                    String tableName = (String) param.args[0];
+                    if (TextUtils.isEmpty(tableName) || !tableName.equals("message")) {
+                        return;
+                    }
+                    Integer type = contentValues.getAsInteger("type");
+                    if (null == type) {
+                        return;
+                    }
                     if (type == 436207665 || type == 469762097) {
 
-                        int status = (int) getObjectField(param.thisObject, "field_status");
+                        int status = contentValues.getAsInteger("status");
                         if (status == 4) {
                             return;
                         }
 
-                        String talker = getObjectField(param.thisObject, "field_talker").toString();
+                        String talker = contentValues.getAsString("talker");
 
                         String blackList = PreferencesUtils.blackList();
                         if (!isEmpty(blackList)) {
@@ -85,7 +93,7 @@ public class Main implements IXposedHookLoadPackage {
                             }
                         }
 
-                        int isSend = (int) getObjectField(param.thisObject, "field_isSend");
+                        int isSend = contentValues.getAsInteger("isSend");
                         if (PreferencesUtils.notSelf() && isSend != 0) {
                             return;
                         }
@@ -100,7 +108,7 @@ public class Main implements IXposedHookLoadPackage {
                         }
 
 
-                        String content = getObjectField(param.thisObject, "field_content").toString();
+                        String content = contentValues.getAsString("content");
 
                         String senderTitle = getFromXml(content, "sendertitle");
                         String notContainsWords = PreferencesUtils.notContains();
