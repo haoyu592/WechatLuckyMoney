@@ -36,6 +36,8 @@ public class VersionParam {
      */
     public static String luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ab";
 
+    public static String getTransferRequest = WECHAT_PACKAGE_NAME + ".plugin.remittance.c.j";
+
 
     public static boolean hasTimingIdentifier = false;
 

@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.ClipboardManager;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -24,6 +25,7 @@ import java.util.List;
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
+import me.veryyoung.wechat.luckymoney.util.XmlToJson;
 
 import static android.text.TextUtils.isEmpty;
 import static android.widget.Toast.LENGTH_LONG;
@@ -35,7 +37,10 @@ import static de.robv.android.xposed.XposedHelpers.findClass;
 import static de.robv.android.xposed.XposedHelpers.findFirstFieldByExactType;
 import static de.robv.android.xposed.XposedHelpers.newInstance;
 import static me.veryyoung.wechat.luckymoney.VersionParam.WECHAT_PACKAGE_NAME;
+import static me.veryyoung.wechat.luckymoney.VersionParam.getNetworkByModelMethod;
+import static me.veryyoung.wechat.luckymoney.VersionParam.getTransferRequest;
 import static me.veryyoung.wechat.luckymoney.VersionParam.luckyMoneyReceiveUI;
+import static me.veryyoung.wechat.luckymoney.VersionParam.networkRequest;
 import static me.veryyoung.wechat.luckymoney.VersionParam.receiveLuckyMoneyRequest;
 
 
@@ -62,10 +67,6 @@ public class Main implements IXposedHookLoadPackage {
             findAndHookMethod("com.tencent.wcdb.database.SQLiteDatabase", lpparam.classLoader, "insert", String.class, String.class, ContentValues.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                    if (!PreferencesUtils.open()) {
-                        return;
-                    }
-
                     ContentValues contentValues = (ContentValues) param.args[2];
                     String tableName = (String) param.args[0];
                     if (TextUtils.isEmpty(tableName) || !tableName.equals("message")) {
@@ -76,66 +77,9 @@ public class Main implements IXposedHookLoadPackage {
                         return;
                     }
                     if (type == 436207665 || type == 469762097) {
-
-                        int status = contentValues.getAsInteger("status");
-                        if (status == 4) {
-                            return;
-                        }
-
-                        String talker = contentValues.getAsString("talker");
-
-                        String blackList = PreferencesUtils.blackList();
-                        if (!isEmpty(blackList)) {
-                            for (String wechatId : blackList.split(",")) {
-                                if (talker.equals(wechatId.trim())) {
-                                    return;
-                                }
-                            }
-                        }
-
-                        int isSend = contentValues.getAsInteger("isSend");
-                        if (PreferencesUtils.notSelf() && isSend != 0) {
-                            return;
-                        }
-
-
-                        if (PreferencesUtils.notWhisper() && !isGroupTalk(talker)) {
-                            return;
-                        }
-
-                        if (!isGroupTalk(talker) && isSend != 0) {
-                            return;
-                        }
-
-
-                        String content = contentValues.getAsString("content");
-
-                        String senderTitle = getFromXml(content, "sendertitle");
-                        String notContainsWords = PreferencesUtils.notContains();
-                        if (!isEmpty(notContainsWords)) {
-                            for (String word : notContainsWords.split(",")) {
-                                if (senderTitle.contains(word)) {
-                                    return;
-                                }
-                            }
-                        }
-
-                        String nativeUrlString = getFromXml(content, "nativeurl");
-                        Uri nativeUrl = Uri.parse(nativeUrlString);
-                        int msgType = Integer.parseInt(nativeUrl.getQueryParameter("msgtype"));
-                        int channelId = Integer.parseInt(nativeUrl.getQueryParameter("channelid"));
-                        String sendId = nativeUrl.getQueryParameter("sendid");
-                        requestCaller = callStaticMethod(findClass(VersionParam.networkRequest, lpparam.classLoader), VersionParam.getNetworkByModelMethod);
-
-                        if (VersionParam.hasTimingIdentifier) {
-                            callMethod(requestCaller, "a", newInstance(findClass(receiveLuckyMoneyRequest, lpparam.classLoader), channelId, sendId, nativeUrlString, 0, "v1.0"), 0);
-                            luckyMoneyMessages.add(new LuckyMoneyMessage(msgType, channelId, sendId, nativeUrlString, talker));
-                            return;
-                        }
-                        Object luckyMoneyRequest = newInstance(findClass(VersionParam.luckyMoneyRequest, lpparam.classLoader),
-                                msgType, channelId, sendId, nativeUrlString, "", "", talker, "v1.0");
-
-                        callMethod(requestCaller, "a", luckyMoneyRequest, getDelayTime());
+                        handleLuckyMoney(contentValues, lpparam);
+                    } else if (type == 419430449) {
+                        handleTransfer(contentValues, lpparam);
                     }
                 }
             });
@@ -206,6 +150,94 @@ public class Main implements IXposedHookLoadPackage {
         }
 
     }
+
+    private void handleLuckyMoney(ContentValues contentValues, LoadPackageParam lpparam) throws XmlPullParserException, IOException {
+        if (!PreferencesUtils.open()) {
+            return;
+        }
+
+        int status = contentValues.getAsInteger("status");
+        if (status == 4) {
+            return;
+        }
+
+        String talker = contentValues.getAsString("talker");
+
+        String blackList = PreferencesUtils.blackList();
+        if (!isEmpty(blackList)) {
+            for (String wechatId : blackList.split(",")) {
+                if (talker.equals(wechatId.trim())) {
+                    return;
+                }
+            }
+        }
+
+        int isSend = contentValues.getAsInteger("isSend");
+        if (PreferencesUtils.notSelf() && isSend != 0) {
+            return;
+        }
+
+
+        if (PreferencesUtils.notWhisper() && !isGroupTalk(talker)) {
+            return;
+        }
+
+        if (!isGroupTalk(talker) && isSend != 0) {
+            return;
+        }
+
+
+        String content = contentValues.getAsString("content");
+
+        String senderTitle = getFromXml(content, "sendertitle");
+        String notContainsWords = PreferencesUtils.notContains();
+        if (!isEmpty(notContainsWords)) {
+            for (String word : notContainsWords.split(",")) {
+                if (senderTitle.contains(word)) {
+                    return;
+                }
+            }
+        }
+
+        String nativeUrlString = getFromXml(content, "nativeurl");
+        Uri nativeUrl = Uri.parse(nativeUrlString);
+        int msgType = Integer.parseInt(nativeUrl.getQueryParameter("msgtype"));
+        int channelId = Integer.parseInt(nativeUrl.getQueryParameter("channelid"));
+        String sendId = nativeUrl.getQueryParameter("sendid");
+        requestCaller = callStaticMethod(findClass(networkRequest, lpparam.classLoader), getNetworkByModelMethod);
+
+        if (VersionParam.hasTimingIdentifier) {
+            callMethod(requestCaller, "a", newInstance(findClass(receiveLuckyMoneyRequest, lpparam.classLoader), channelId, sendId, nativeUrlString, 0, "v1.0"), 0);
+            luckyMoneyMessages.add(new LuckyMoneyMessage(msgType, channelId, sendId, nativeUrlString, talker));
+            return;
+        }
+        Object luckyMoneyRequest = newInstance(findClass(VersionParam.luckyMoneyRequest, lpparam.classLoader),
+                msgType, channelId, sendId, nativeUrlString, "", "", talker, "v1.0");
+
+        callMethod(requestCaller, "a", luckyMoneyRequest, getDelayTime());
+    }
+
+    private void handleTransfer(ContentValues contentValues, LoadPackageParam lpparam) throws IOException, XmlPullParserException, PackageManager.NameNotFoundException, InterruptedException, JSONException {
+        JSONObject wcpayinfo = new XmlToJson.Builder(contentValues.getAsString("content")).build()
+                .getJSONObject("msg").getJSONObject("appmsg").getJSONObject("wcpayinfo");
+
+        int paysubtype = wcpayinfo.getInt("paysubtype");
+        if (paysubtype != 1) {
+            return;
+        }
+
+        String transactionId = wcpayinfo.getString("transcationid");
+        String transferId = wcpayinfo.getString("transferid");
+        int invalidtime = wcpayinfo.getInt("invalidtime");
+
+        if (null == requestCaller) {
+            requestCaller = callStaticMethod(findClass(networkRequest, lpparam.classLoader), getNetworkByModelMethod);
+        }
+
+        String talker = contentValues.getAsString("talker");
+        callMethod(requestCaller, "a", newInstance(findClass(getTransferRequest, lpparam.classLoader), transactionId, transferId, 0, "confirm", talker, invalidtime), 0);
+    }
+
 
     private int getDelayTime() {
         int delayTime = 0;
