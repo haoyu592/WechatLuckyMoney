@@ -183,8 +183,12 @@ public class Main implements IXposedHookLoadPackage {
             return;
         }
 
+        String content = contentValues.getAsString("content");
+        if (!content.startsWith("<msg")) {
+            content = content.substring(content.indexOf("<msg"));
+        }
 
-        JSONObject wcpayinfo = new XmlToJson.Builder(contentValues.getAsString("content")).build()
+        JSONObject wcpayinfo = new XmlToJson.Builder(content).build()
                 .getJSONObject("msg").getJSONObject("appmsg").getJSONObject("wcpayinfo");
         String senderTitle = wcpayinfo.getString("sendertitle");
         String notContainsWords = PreferencesUtils.notContains();
