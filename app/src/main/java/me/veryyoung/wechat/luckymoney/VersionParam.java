@@ -208,6 +208,7 @@ public class VersionParam {
                 hasTimingIdentifier = true;
                 break;
             case "6.6.0":
+            case "6.6.1":
                 receiveUIFunctionName = "d";
                 receiveUIParamName = "com.tencent.mm.ad.k";
                 networkRequest = "com.tencent.mm.y.as";
