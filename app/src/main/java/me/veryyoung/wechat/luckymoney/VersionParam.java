@@ -10,17 +10,17 @@ public class VersionParam {
     /**
      * last param of receiveUIFunctionName for class luckyMoneyReceiveUI
      */
-    public static String receiveUIParamName = "com.tencent.mm.ad.k";
+    public static String receiveUIParamName = "com.tencent.mm.ae.k";
 
     /**
      * Search MMCore has not been initialize ?
      */
-    public static String networkRequest = "com.tencent.mm.y.as";
+    public static String networkRequest = "com.tencent.mm.z.ar";
 
     /**
      * Search MMCore has not been initialize ? next function of networkRequest
      */
-    public static String getNetworkByModelMethod = "ys";
+    public static String getNetworkByModelMethod = "CG";
 
 
     public static String luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
@@ -28,15 +28,18 @@ public class VersionParam {
     /**
      * Search jSONObject.optString("timingIdentifier")
      */
-    public static String receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ae";
+    public static String receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.af";
 
 
     /**
      * Search hashMap.put("timingIdentifier", str
      */
-    public static String luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ab";
+    public static String luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ac";
 
-    public static String getTransferRequest = WECHAT_PACKAGE_NAME + ".plugin.remittance.c.l";
+    /**
+     * search /cgi-bin/mmpay-bin/transferoperation
+     */
+    public static String getTransferRequest = WECHAT_PACKAGE_NAME + ".plugin.remittance.model.s";
 
 
     public static boolean hasTimingIdentifier = false;
@@ -49,7 +52,7 @@ public class VersionParam {
                 receiveUIParamName = "com.tencent.mm.t.j";
                 networkRequest = "com.tencent.mm.model.ah";
                 getNetworkByModelMethod = "tF";
-                receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ae";
+                receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plxugin.luckymoney.c.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.c.ab";
                 break;
@@ -216,16 +219,29 @@ public class VersionParam {
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ae";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ab";
+                getTransferRequest = WECHAT_PACKAGE_NAME + ".plugin.remittance.c.l";
+                hasTimingIdentifier = true;
+                break;
+            case "6.6.2":
+                receiveUIFunctionName = "d";
+                receiveUIParamName = "com.tencent.mm.ae.k";
+                networkRequest = "com.tencent.mm.z.ar";
+                getNetworkByModelMethod = "CG";
+                receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.af";
+                luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
+                luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ac";
+                getTransferRequest = WECHAT_PACKAGE_NAME + ".plugin.remittance.model.s";
                 hasTimingIdentifier = true;
                 break;
             default:
                 receiveUIFunctionName = "d";
-                receiveUIParamName = "com.tencent.mm.ad.k";
-                networkRequest = "com.tencent.mm.y.as";
-                getNetworkByModelMethod = "ys";
-                receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ae";
+                receiveUIParamName = "com.tencent.mm.ae.k";
+                networkRequest = "com.tencent.mm.z.ar";
+                getNetworkByModelMethod = "CG";
+                receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.af";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
-                luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ab";
+                luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ac";
+                getTransferRequest = WECHAT_PACKAGE_NAME + ".plugin.remittance.model.s";
                 hasTimingIdentifier = true;
         }
     }
