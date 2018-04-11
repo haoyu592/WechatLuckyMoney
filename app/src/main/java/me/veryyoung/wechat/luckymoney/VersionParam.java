@@ -10,17 +10,17 @@ public class VersionParam {
     /**
      * last param of receiveUIFunctionName for class luckyMoneyReceiveUI
      */
-    public static String receiveUIParamName = "com.tencent.mm.ae.k";
+    public static String receiveUIParamName = "com.tencent.mm.ac.l";
 
     /**
      * Search MMCore has not been initialize ?
      */
-    public static String networkRequest = "com.tencent.mm.z.ar";
+    public static String networkRequest = "com.tencent.mm.z.au";
 
     /**
      * Search MMCore has not been initialize ? next function of networkRequest
      */
-    public static String getNetworkByModelMethod = "CG";
+    public static String getNetworkByModelMethod = "Dv";
 
 
     public static String luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
@@ -39,7 +39,7 @@ public class VersionParam {
     /**
      * search /cgi-bin/mmpay-bin/transferoperation
      */
-    public static String getTransferRequest = WECHAT_PACKAGE_NAME + ".plugin.remittance.model.s";
+    public static String getTransferRequest = WECHAT_PACKAGE_NAME + ".plugin.remittance.model.u";
 
 
     public static boolean hasTimingIdentifier = false;
@@ -236,7 +236,7 @@ public class VersionParam {
                 break;
             case "6.6.5":
                 receiveUIFunctionName = "d";
-                receiveUIParamName = "com.tencent.mm.ad.k";
+                receiveUIParamName = "com.tencent.mm.ac.l";
                 networkRequest = "com.tencent.mm.y.as";
                 getNetworkByModelMethod = "CN";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.af";
@@ -245,15 +245,26 @@ public class VersionParam {
                 getTransferRequest = WECHAT_PACKAGE_NAME + ".plugin.remittance.model.t";
                 hasTimingIdentifier = true;
                 break;
-            default:
+            case "6.6.6":
                 receiveUIFunctionName = "d";
-                receiveUIParamName = "com.tencent.mm.ad.k";
-                networkRequest = "com.tencent.mm.y.as";
-                getNetworkByModelMethod = "CN";
+                receiveUIParamName = "com.tencent.mm.ac.l";
+                networkRequest = "com.tencent.mm.z.au";
+                getNetworkByModelMethod = "Dv";
                 receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.af";
                 luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
                 luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ac";
-                getTransferRequest = WECHAT_PACKAGE_NAME + ".plugin.remittance.model.t";
+                getTransferRequest = WECHAT_PACKAGE_NAME + ".plugin.remittance.model.u";
+                hasTimingIdentifier = true;
+                break;
+            default:
+                receiveUIFunctionName = "d";
+                receiveUIParamName = "com.tencent.mm.ac.l";
+                networkRequest = "com.tencent.mm.z.au";
+                getNetworkByModelMethod = "Dv";
+                receiveLuckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.af";
+                luckyMoneyReceiveUI = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.ui.LuckyMoneyReceiveUI";
+                luckyMoneyRequest = WECHAT_PACKAGE_NAME + ".plugin.luckymoney.b.ac";
+                getTransferRequest = WECHAT_PACKAGE_NAME + ".plugin.remittance.model.u";
                 hasTimingIdentifier = true;
         }
     }
