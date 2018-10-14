@@ -130,7 +130,7 @@ public class Main implements IXposedHookLoadPackage {
                 }
             });
 
-            findAndHookMethod("com.tencent.mm.plugin.chatroom.ui.ChatroomInfoUI", lpparam.classLoader, "onCreate", Bundle.class, new XC_MethodHook() {
+            findAndHookMethod("com.tencent.mm.chatroom.ui.ChatroomInfoUI", lpparam.classLoader, "onCreate", Bundle.class, new XC_MethodHook() {
                 @Override
                 protected void afterHookedMethod(MethodHookParam param) throws Throwable {
                     if (PreferencesUtils.showWechatId()) {
